@@ -3,7 +3,7 @@ plugins {
     id 'maven-publish'
 }
 
-group 'org.sotap'
+group 'win.subilan'
 version '1.0-SNAPSHOT'
 ext.minecraftVersion = "1.15.2"
 

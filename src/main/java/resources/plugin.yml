@@ -1,27 +1,29 @@
-name: Ageing
-version: "0.1"
-description: "An age-themed level system in Minecraft"
+name: SpecialZone
+main: win.subilan.Ageing.Ageing
+version: "1"
+api: "1.15"
 author: Subilan
-website: "https://github.com/sotapmc/Ageing"
-main: org.sotap.Ageing.Ageing
-api-version: "1.13"
 
 commands:
-  ageing:
-    aliases: ["age"]
-    description: Controls the whole plugin.
+  age:
+    description: Controls the Ageing plugin.
     permission: ageing.command
     permission-message: "You do not have the permission to use the command."
-    usage: /ageing <options>
+    usage: /age <options>
 permissions:
   ageing.*:
     description: The super permission node for Ageing.
     default: op
     children:
-      ageing.admin: true
-      ageing.user: true
-  ageing.admin:
-    description: The administrators' node for Ageing.
+      ageing.command: true
+      ageing.set: true
+      ageing.get: true 
+  ageing.set:
+    description: Directly set a player's age.
     default: op
-  ageing.user:
-    description: The players' node for Ageing.
+  ageing.get:
+    description: Get a player's age information.
+    default: op
+  ageing.command:
+    description: The base permission node to access all the commands.
+    default: op
