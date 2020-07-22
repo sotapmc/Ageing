@@ -3,9 +3,9 @@ plugins {
     id 'maven-publish'
 }
 
-group 'win.subilan'
+group 'org.sotap'
 version '1.0-SNAPSHOT'
-ext.minecraftVersion = "1.15.2"
+ext.minecraftVersion = "1.16.1"
 
 sourceCompatibility = 1.8
 
