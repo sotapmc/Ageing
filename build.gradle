@@ -1,0 +1,29 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+}
+
+group 'org.sotap'
+version '1.0-SNAPSHOT'
+ext.minecraftVersion = "1.15.2"
+
+sourceCompatibility = 1.8
+
+repositories {
+    jcenter()
+    maven { name 'Spigot';      url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
+    maven { name 'Sonatype';    url 'https://oss.sonatype.org/content/groups/public' }
+}
+
+dependencies {
+    compileOnly "org.spigotmc:spigot-api:$minecraftVersion-R0.1-SNAPSHOT"
+    testCompile 'junit:junit:4.12'
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDirs "src/main/java/resources"
+        }
+    }
+}

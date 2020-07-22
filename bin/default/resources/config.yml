@@ -1,0 +1,9 @@
+enabled: true
+age_awards:
+  "1":
+    - "give %username% diamond 3"
+    - "give %username% diamond_block 3"
+  "20":
+    - "give %username% diamond 5"
+    - "give %username% diamond_block 5"
+  # ...

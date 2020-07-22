@@ -1,0 +1,27 @@
+name: Ageing
+version: "0.1"
+description: "An age-themed level system in Minecraft"
+author: Subilan
+website: "https://github.com/sotapmc/Ageing"
+main: org.sotap.Ageing.Ageing
+api-version: "1.13"
+
+commands:
+  ageing:
+    aliases: ["age"]
+    description: Controls the whole plugin.
+    permission: ageing.command
+    permission-message: "You do not have the permission to use the command."
+    usage: /ageing <options>
+permissions:
+  ageing.*:
+    description: The super permission node for Ageing.
+    default: op
+    children:
+      ageing.admin: true
+      ageing.user: true
+  ageing.admin:
+    description: The administrators' node for Ageing.
+    default: op
+  ageing.user:
+    description: The players' node for Ageing.
