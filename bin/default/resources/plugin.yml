@@ -1,8 +1,8 @@
-name: SpecialZone
-main: win.subilan.Ageing.Ageing
+name: Ageing
+main: org.sotap.Ageing.Ageing
 version: "1"
-api: "1.15"
-author: Subilan
+api: "1.16"
+author: sotapmc
 
 commands:
   age:
@@ -15,15 +15,17 @@ permissions:
     description: The super permission node for Ageing.
     default: op
     children:
-      ageing.command: true
       ageing.set: true
       ageing.get: true 
+      ageing.admin: true
+  ageing.admin:
+    description: The permission node for administrator which provides full control on the plugin.
+    default: op
+  ageing.user:
+    description: The permission node for players which only provides a few functions.
   ageing.set:
     description: Directly set a player's age.
     default: op
   ageing.get:
     description: Get a player's age information.
-    default: op
-  ageing.command:
-    description: The base permission node to access all the commands.
     default: op
