@@ -1,8 +1,0 @@
-age_rewards:
-  "1":
-    - "give %username% diamond 10"
-  "2":
-    - "give %username% diamond 20"
-  "20":
-    - "give %username% diamond 50"
-    - "give %username% diamond 1000"

@@ -5,3 +5,5 @@ build
 .gradle
 *.class
 .vscode
+bin
+*.class
