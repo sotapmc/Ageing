@@ -6,3 +6,4 @@ age_rewards:
   "20":
     - "give %username% diamond 50"
     - "give %username% diamond 1000"
+max_age: 100
