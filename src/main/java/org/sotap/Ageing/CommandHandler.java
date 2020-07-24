@@ -64,6 +64,11 @@ public class CommandHandler implements CommandExecutor {
                                     G.translateColor(G.failed + "Invalid argument list length"));
                             return true;
                         }
+                        if (!ageData.contains(args[1])) {
+                            sender.sendMessage(G.translateColor(
+                                    G.failed + "There is no such user named &c" + args[1] + "&r."));
+                            return true;
+                        }
                         if (args.length == 3) {
                             if (!G.isStringIntegerNatural(args[2])) {
                                 sender.sendMessage(G.translateColor(
@@ -97,6 +102,11 @@ public class CommandHandler implements CommandExecutor {
                         if (!(args.length >= 2)) {
                             sender.sendMessage(
                                     G.translateColor(G.failed + "Invalid argument list length"));
+                            return true;
+                        }
+                        if (!ageData.contains(args[1])) {
+                            sender.sendMessage(G.translateColor(
+                                    G.failed + "There is no such user named &c" + args[1] + "&r."));
                             return true;
                         }
                         if (args.length == 3) {
