@@ -32,7 +32,7 @@ public class CommandHandler implements CommandExecutor {
                         }
                         Integer newAge = Integer.parseInt(args[2]);
                         if (newAge > config.getInt("max_age")) {
-                            sender.sendMessage(G.translateColor(G.failed + "The age must be &csmaller&r than the maximum value (&e" + config.getInt("max_age") + "&r) in the configuration file."));
+                            sender.sendMessage(G.translateColor(G.failed + "The age must be &csmaller&r than the maximum value (&e" + config.getInt("max_age") + "&r) defined in the config."));
                             return true;
                         }
                         ageData.set(args[1], newAge);
@@ -55,13 +55,24 @@ public class CommandHandler implements CommandExecutor {
                             return true;
                         }
                         if (!G.isStringIntegerNatural(args[2])) {
-                            sender.sendMessage(G.translateColor(G.failed + "The age must be &cpositive integer&r."));
+                            sender.sendMessage(G.translateColor(G.failed + "&cPositive integer &rrequired."));
                             return true;
                         }
-                        Integer incr = ageData.getInt(args[1]) + Integer.parseInt(args[2]);
-                        ageData.set(args[1], incr);
+                        Integer maxAge = config.getInt("max_age");
+                        Integer oldAge = ageData.getInt(args[1]);
+                        Integer addend = Integer.parseInt(args[2]);
+                        Integer result = oldAge + addend;
+                        if (maxAge == oldAge) {
+                            sender.sendMessage(G.translateColor(G.failed + "The age is already &cat maximum&r!"));
+                            return true;
+                        }
+                        if (result > maxAge) {
+                            sender.sendMessage(G.translateColor(G.failed + "Invalid addend. (Must be &cequal&r to or &csmaller &rthan &e" + (maxAge - oldAge) + "&r)"));
+                            return true;
+                        }
+                        ageData.set(args[1], result);
                         this.plug.saveData();
-                        sender.sendMessage(G.translateColor(G.success + "Successfully set &a" + args[1] + "&r's age to &a" + incr + "&r."));
+                        sender.sendMessage(G.translateColor(G.success + "Successfully set &a" + args[1] + "&r's age to &a" + result + "&r."));
                         break;
 
                     case "sub":
@@ -70,13 +81,23 @@ public class CommandHandler implements CommandExecutor {
                             return true;
                         }
                         if (!G.isStringIntegerNatural(args[2])) {
-                            sender.sendMessage(G.translateColor(G.failed + "The age must be &cpositive integer&r."));
+                            sender.sendMessage(G.translateColor(G.failed + "&cPositive integer &rrequired."));
                             return true;
                         }
-                        Integer decr = ageData.getInt(args[1]) - Integer.parseInt(args[2]);
-                        ageData.set(args[1], decr);
+                        Integer oldAge = ageData.getInt(args[1]);
+                        Integer subtrahend = Integer.parseInt(args[2]);
+                        Integer result = oldAge - result;
+                        if (oldAge == 0) {
+                            sender.sendMessage(G.translateColor(G.failed + "The age is &e0&r which doesn't need to be subtracted."));
+                            return true;
+                        }
+                        if (result < 0) {
+                            sender.sendMessage(G.translateColor(G.failed + "The subtrahend must be &csmaller &rthan &e" + oldAge + "&r."));
+                            return true;
+                        }
+                        ageData.set(args[1], result);
                         this.plug.saveData();
-                        sender.sendMessage(G.translateColor(G.success + "Successfully set &a" + args[1] + "&r's age to &a" + decr + "&r."));
+                        sender.sendMessage(G.translateColor(G.success + "Successfully set &a" + args[1] + "&r's age to &a" + result + "&r."));
                         break;
                     
                     case "reload":
