@@ -27,7 +27,7 @@ public class CommandHandler implements CommandExecutor {
                                     G.translateColor(G.failed + "Invalid argument list length."));
                             return true;
                         }
-                        if (!G.isStringIntegerNatural(args[2])) {
+                        if (!G.isStringInteger(args[2])) {
                             sender.sendMessage(G.translateColor(
                                     G.failed + "The age must be &cpositive integer&r."));
                             return true;
