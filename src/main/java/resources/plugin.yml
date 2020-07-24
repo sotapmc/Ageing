@@ -3,6 +3,7 @@ main: org.sotap.Ageing.Ageing
 version: "1"
 api: "1.16"
 author: sotapmc
+api-version: "1.16"
 
 commands:
   age:
