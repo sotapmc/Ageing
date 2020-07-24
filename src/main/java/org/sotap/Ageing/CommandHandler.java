@@ -48,6 +48,36 @@ public class CommandHandler implements CommandExecutor {
                         Integer age = ageData.getInt(args[1]);
                         sender.sendMessage(G.translateColor(G.info + "The age of &a" + args[1] + "&r is &a" + Integer.toString(age) + "&r."));
                         break;
+
+                    case "add":
+                        if (args.length != 3) {
+                            sender.sendMessage(G.translateColor(G.failed + "Invalid argument list length"));
+                            return true;
+                        }
+                        if (!G.isStringIntegerNatural(args[2])) {
+                            sender.sendMessage(G.translateColor(G.failed + "The age must be &cpositive integer&r."));
+                            return true;
+                        }
+                        Integer incr = ageData.getInt(args[1]) + Integer.parseInt(args[2]);
+                        ageData.set(args[1], incr);
+                        this.plug.saveData();
+                        sender.sendMessage(G.translateColor(G.success + "Successfully set &a" + args[1] + "&r's age to &a" + incr + "&r."));
+                        break;
+
+                    case "sub":
+                        if (args.length != 3) {
+                            sender.sendMessage(G.translateColor(G.failed + "Invalid argument list length"));
+                            return true;
+                        }
+                        if (!G.isStringIntegerNatural(args[2])) {
+                            sender.sendMessage(G.translateColor(G.failed + "The age must be &cpositive integer&r."));
+                            return true;
+                        }
+                        Integer decr = ageData.getInt(args[1]) - Integer.parseInt(args[2]);
+                        ageData.set(args[1], decr);
+                        this.plug.saveData();
+                        sender.sendMessage(G.translateColor(G.success + "Successfully set &a" + args[1] + "&r's age to &a" + decr + "&r."));
+                        break;
                     
                     case "reload":
                         this.plug.reloadConfig();
