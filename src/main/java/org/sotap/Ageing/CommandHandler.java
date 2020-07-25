@@ -18,9 +18,11 @@ public class CommandHandler implements CommandExecutor {
         if (cmd.getName().equalsIgnoreCase("age")) {
             if (args.length > 0) {
                 String arg = args[0];
+                String playername = null;
+                String playerUUID = null;
                 if (args.length > 1) {
-                    String playername = args[1];
-                    String playerUUID = Bukkit.getPlayer(playername).getUniqueId().toString();
+                    playername = args[1];
+                    playerUUID = Bukkit.getPlayer(playername).getUniqueId().toString();
                 }
                 FileConfiguration config = this.plug.getConfig();
                 FileConfiguration ageData = this.plug.ageData;
