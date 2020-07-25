@@ -37,4 +37,8 @@ public class G {
         }
         return false;
     }
+
+    public static Boolean isStringIntegerPositive(String str) {
+        return G.isStringIntegerNatural(str) || Integer.parseInt(str) == 0;
+    }
 }
