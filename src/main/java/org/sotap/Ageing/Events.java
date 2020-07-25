@@ -49,15 +49,17 @@ public class Events implements Listener {
         ConfigurationSection limitedCommands = config.getConfigurationSection("limited_commands");
         List<String> ignoredCommands = config.getStringList("ignored_commands");
 
-        if (!ignoredCommands.contains(commandLabel) && limitedCommands.contains(commandLabel)) {
-            finalAgeLimit = limitedCommands.getInt(commandLabel) < lowestLimit ? lowestLimit : limitedCommands.getInt(commandLabel);
-        } else {
-            finalAgeLimit = lowestLimit;
-        }
-
-        if (currentAge < finalAgeLimit) {
-            p.sendMessage(G.translateColor(G.warn + "You are not old enough to execute the command."));
-            e.setCancelled(true);
+        if (!ignoredCommands.contains(commandLabel)) {
+            if (limitedCommands.contains(commandLabel)) {
+                finalAgeLimit = limitedCommands.getInt(commandLabel) < lowestLimit ? lowestLimit : limitedCommands.getInt(commandLabel);
+            } else {
+                finalAgeLimit = lowestLimit;
+            }
+    
+            if (currentAge < finalAgeLimit) {
+                p.sendMessage(G.translateColor(G.warn + "You are not old enough to execute the command."));
+                e.setCancelled(true);
+            }
         }
     }
 }
