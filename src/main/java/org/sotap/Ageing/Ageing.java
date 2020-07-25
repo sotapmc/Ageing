@@ -17,6 +17,7 @@ public class Ageing extends JavaPlugin {
         this.ageData = this.load("age.yml");
         this.getLogger().info(G.translateColor(G.success + "The plugin has been &aenabled&r."));
         Bukkit.getPluginCommand("age").setExecutor(new CommandHandler(this));
+        this.getServer().getPluginManager().registerEvents(new Events(this), this);
     }
 
     @Override
