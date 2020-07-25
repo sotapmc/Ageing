@@ -51,4 +51,8 @@ public class Ageing extends JavaPlugin {
             e.printStackTrace();
         }
     }
+
+    public void log(String message) {
+        this.getLogger().info(message);
+    }
 }
