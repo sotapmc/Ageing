@@ -18,8 +18,10 @@ public class CommandHandler implements CommandExecutor {
         if (cmd.getName().equalsIgnoreCase("age")) {
             if (args.length > 0) {
                 String arg = args[0];
-                String playername = args[1];
-                String playerUUID = Bukkit.getPlayer(playername).getUniqueId().toString();
+                if (args.length > 1) {
+                    String playername = args[1];
+                    String playerUUID = Bukkit.getPlayer(playername).getUniqueId().toString();
+                }
                 FileConfiguration config = this.plug.getConfig();
                 FileConfiguration ageData = this.plug.ageData;
 
@@ -31,8 +33,8 @@ public class CommandHandler implements CommandExecutor {
                             return true;
                         }
                         if (!G.isStringIntegerNatural(args[2])) {
-                            sender.sendMessage(G.translateColor(
-                                    G.failed + "The age must be &cnatural&r."));
+                            sender.sendMessage(
+                                    G.translateColor(G.failed + "The age must be &cnatural&r."));
                             return true;
                         }
                         Integer newAge = Integer.parseInt(args[2]);
@@ -56,10 +58,12 @@ public class CommandHandler implements CommandExecutor {
                             return true;
                         }
                         if (!ageData.contains(playerUUID)) {
-                            sender.sendMessage(G.translateColor(G.failed + "There is no such user named &c" + playername + "&r."));
+                            sender.sendMessage(G.translateColor(G.failed
+                                    + "There is no such user named &c" + playername + "&r."));
                         }
                         Integer age = ageData.getInt(playerUUID + ".age");
-                        sender.sendMessage(G.translateColor(G.info + "The age of &a" + playername + "&r is &a" + Integer.toString(age) + "&r."));
+                        sender.sendMessage(G.translateColor(G.info + "The age of &a" + playername
+                                + "&r is &a" + Integer.toString(age) + "&r."));
                         break;
                     }
 
@@ -70,8 +74,8 @@ public class CommandHandler implements CommandExecutor {
                             return true;
                         }
                         if (!ageData.contains(playerUUID)) {
-                            sender.sendMessage(G.translateColor(
-                                    G.failed + "There is no such user named &c" + playername + "&r."));
+                            sender.sendMessage(G.translateColor(G.failed
+                                    + "There is no such user named &c" + playername + "&r."));
                             return true;
                         }
                         if (args.length == 3) {
@@ -110,8 +114,8 @@ public class CommandHandler implements CommandExecutor {
                             return true;
                         }
                         if (!ageData.contains(playerUUID)) {
-                            sender.sendMessage(G.translateColor(
-                                    G.failed + "There is no such user named &c" + playername + "&r."));
+                            sender.sendMessage(G.translateColor(G.failed
+                                    + "There is no such user named &c" + playername + "&r."));
                             return true;
                         }
                         if (args.length == 3) {
