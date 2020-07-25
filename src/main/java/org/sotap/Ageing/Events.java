@@ -40,23 +40,24 @@ public class Events implements Listener {
         FileConfiguration config = this.plug.getConfig();
         Player p = e.getPlayer();
         String uuid = p.getUniqueId().toString();
+        String commandLabel = e.getMessage().substring(1);
+
+        Integer currentAge = this.plug.ageData.getInt(uuid + ".age");
+        Integer lowestLimit = config.getInt("command_lowest_limit");
+        Integer finalAgeLimit = 0;
+
         ConfigurationSection limitedCommands = config.getConfigurationSection("limited_commands");
         List<String> ignoredCommands = config.getStringList("ignored_commands");
-        String commandLabel = e.getMessage().substring(1);
+
         if (!ignoredCommands.contains(commandLabel) && limitedCommands.contains(commandLabel)) {
-            Integer globalAgeLimit = 0;
-            Integer specAgeLimit = 0;
-            Integer finalAgeLimit = 0;
-            if (limitedCommands.contains("all") && limitedCommands.getInt("all") >= 0) {
-                globalAgeLimit = limitedCommands.getInt("all");
-            }
-            specAgeLimit = limitedCommands.getInt(commandLabel);
-            finalAgeLimit = specAgeLimit < globalAgeLimit ? globalAgeLimit : specAgeLimit;
-            Integer currentAge = this.plug.ageData.getInt(uuid + ".age");
-            if (currentAge < finalAgeLimit) {
-                p.sendMessage(G.translateColor(G.warn + "You are not old enough to execute the command."));
-                e.setCancelled(true);
-            }
+            finalAgeLimit = limitedCommands.getInt(commandLabel) < lowestLimit ? lowestLimit : limitedCommands.getInt(commandLabel);
+        } else {
+            finalAgeLimit = lowestLimit;
+        }
+
+        if (currentAge < finalAgeLimit) {
+            p.sendMessage(G.translateColor(G.warn + "You are not old enough to execute the command."));
+            e.setCancelled(true);
         }
     }
 }
