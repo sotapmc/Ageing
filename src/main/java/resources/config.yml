@@ -1,4 +1,5 @@
-age_rewards:
+# 达到一定年龄后所要执行的命令
+age_commands:
   "1":
     - "give %username% diamond 10"
   "2":
@@ -6,14 +7,13 @@ age_rewards:
   "20":
     - "give %username% diamond 50"
     - "give %username% diamond 1000"
+# 用户可以达到的最大年龄数值
 max_age: 100
+# 受到年龄限制的指令
 limited_commands:
-  help: 11
-  test2: 12
-  kksk: 13
-  mmd: 1
-command_lowest_limit: 10
+  example: 0
+# 使用指令的最低年龄
+command_lowest_limit: 0
+# 不受年龄限制的指令
 ignored_commands:
-  - "set"
-  - "get"
-  - "test1"
+  - "example"
