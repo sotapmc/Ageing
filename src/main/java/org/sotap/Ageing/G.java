@@ -33,12 +33,15 @@ public class G {
 
     public static Boolean isStringIntegerNatural(String str) {
         if (G.isStringInteger(str)) {
-            return Integer.parseInt(str) > 0;
+            return Integer.parseInt(str) >= 0;
         }
         return false;
     }
 
     public static Boolean isStringIntegerPositive(String str) {
-        return G.isStringIntegerNatural(str) || Integer.parseInt(str) == 0;
+        if (G.isStringIntegerNatural(str)) {
+            return Integer.parseInt(str) > 0;
+        }
+        return false;
     }
 }
