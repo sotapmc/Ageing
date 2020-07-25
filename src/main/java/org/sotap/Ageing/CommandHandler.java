@@ -22,7 +22,13 @@ public class CommandHandler implements CommandExecutor {
                 String playerUUID = null;
                 if (args.length > 1) {
                     playername = args[1];
-                    playerUUID = Bukkit.getPlayer(playername).getUniqueId().toString();
+                    try {
+                        playerUUID = Bukkit.getPlayer(playername).getUniqueId().toString();
+                    } catch (NullPointerException npe) {
+                        sender.sendMessage(G.translateColor(G.failed
+                        + "There is no such user named &c" + playername + "&r."));
+                        return true;
+                    }
                 }
                 FileConfiguration config = this.plug.getConfig();
                 FileConfiguration ageData = this.plug.ageData;
@@ -61,7 +67,7 @@ public class CommandHandler implements CommandExecutor {
                         }
                         if (!ageData.contains(playerUUID)) {
                             sender.sendMessage(G.translateColor(G.failed
-                                    + "There is no such user named &c" + playername + "&r."));
+                                    + "There is no data for &c" + playername + "&r."));
                         }
                         Integer age = ageData.getInt(playerUUID + ".age");
                         sender.sendMessage(G.translateColor(G.info + "The age of &a" + playername
@@ -77,7 +83,7 @@ public class CommandHandler implements CommandExecutor {
                         }
                         if (!ageData.contains(playerUUID)) {
                             sender.sendMessage(G.translateColor(G.failed
-                                    + "There is no such user named &c" + playername + "&r."));
+                                    + "There is no data for &c" + playername + "&r."));
                             return true;
                         }
                         if (args.length == 3) {
