@@ -7,3 +7,13 @@ age_rewards:
     - "give %username% diamond 50"
     - "give %username% diamond 1000"
 max_age: 100
+limited_commands:
+  all: 10
+  help: 11
+  test2: 12
+  kksk: 13
+  mmd: 1
+ignored_commands:
+  - "set"
+  - "get"
+  - "test1"
