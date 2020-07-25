@@ -10,11 +10,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class Ageing extends JavaPlugin {
     FileConfiguration ageData;
+    DataController controller;
 
     @Override
     public void onEnable() {
         this.saveDefaultConfig();
         this.ageData = this.load("age.yml");
+        this.controller = new DataController(this);
         this.getLogger().info(G.translateColor(G.success + "The plugin has been &aenabled&r."));
         Bukkit.getPluginCommand("age").setExecutor(new CommandHandler(this));
         this.getServer().getPluginManager().registerEvents(new Events(this), this);
