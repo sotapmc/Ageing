@@ -75,7 +75,7 @@ public class CommandHandler implements CommandExecutor {
                         if (args.length == 3) {
                             if (!G.isStringIntegerNatural(args[2])) {
                                 sender.sendMessage(G.translateColor(
-                                        G.failed + "&cPositive integer &rrequired."));
+                                        G.failed + "&cNatural integer &rrequired."));
                                 return true;
                             }
                         }
@@ -115,7 +115,7 @@ public class CommandHandler implements CommandExecutor {
                         if (args.length == 3) {
                             if (!G.isStringIntegerNatural(args[2]) && args.length == 3) {
                                 sender.sendMessage(G.translateColor(
-                                        G.failed + "&cPositive integer &rrequired."));
+                                        G.failed + "&cNatural integer &rrequired."));
                                 return true;
                             }
                         }
