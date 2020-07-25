@@ -1,5 +1,6 @@
 package org.sotap.Ageing;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -17,6 +18,8 @@ public class CommandHandler implements CommandExecutor {
         if (cmd.getName().equalsIgnoreCase("age")) {
             if (args.length > 0) {
                 String arg = args[0];
+                String playername = args[1];
+                String playerUUID = Bukkit.getPlayer(playername).getUniqueId().toString();
                 FileConfiguration config = this.plug.getConfig();
                 FileConfiguration ageData = this.plug.ageData;
 
@@ -39,10 +42,10 @@ public class CommandHandler implements CommandExecutor {
                                     + config.getInt("max_age") + "&r) defined in the config."));
                             return true;
                         }
-                        ageData.set(args[1], newAge);
+                        ageData.set(playerUUID + ".age", newAge);
                         this.plug.saveData();
                         sender.sendMessage(G.translateColor(G.success + "Successfully set &a"
-                                + args[1] + "&r's age to &a" + args[2] + "&r."));
+                                + playername + "&r's age to &a" + args[2] + "&r."));
                         break;
                     }
 
@@ -52,12 +55,11 @@ public class CommandHandler implements CommandExecutor {
                                     G.translateColor(G.failed + "Invalid argument list length"));
                             return true;
                         }
-                        if (!ageData.contains(args[1])) {
-                            sender.sendMessage(G.translateColor(G.failed + "There is no such user named &c" + args[1] + "&r."));
+                        if (!ageData.contains(playerUUID)) {
+                            sender.sendMessage(G.translateColor(G.failed + "There is no such user named &c" + playername + "&r."));
                         }
-                        Integer age = ageData.getInt(args[1]);
-                        sender.sendMessage(G.translateColor(G.info + "The age of &a" + args[1]
-                                + "&r is &a" + Integer.toString(age) + "&r."));
+                        Integer age = ageData.getInt(playerUUID + ".age");
+                        sender.sendMessage(G.translateColor(G.info + "The age of &a" + playername + "&r is &a" + Integer.toString(age) + "&r."));
                         break;
                     }
 
@@ -67,9 +69,9 @@ public class CommandHandler implements CommandExecutor {
                                     G.translateColor(G.failed + "Invalid argument list length"));
                             return true;
                         }
-                        if (!ageData.contains(args[1])) {
+                        if (!ageData.contains(playerUUID)) {
                             sender.sendMessage(G.translateColor(
-                                    G.failed + "There is no such user named &c" + args[1] + "&r."));
+                                    G.failed + "There is no such user named &c" + playername + "&r."));
                             return true;
                         }
                         if (args.length == 3) {
@@ -80,7 +82,7 @@ public class CommandHandler implements CommandExecutor {
                             }
                         }
                         Integer maxAge = config.getInt("max_age");
-                        Integer oldAge = ageData.getInt(args[1]);
+                        Integer oldAge = ageData.getInt(playerUUID + ".age");
                         Integer addend = args.length == 2 ? 1 : Integer.parseInt(args[2]);
                         Integer result = oldAge + addend;
                         if (maxAge == oldAge) {
@@ -94,10 +96,10 @@ public class CommandHandler implements CommandExecutor {
                                     + (maxAge - oldAge) + "&r)"));
                             return true;
                         }
-                        ageData.set(args[1], result);
+                        ageData.set(playerUUID + ".age", result);
                         this.plug.saveData();
                         sender.sendMessage(G.translateColor(G.success + "Successfully set &a"
-                                + args[1] + "&r's age to &a" + result + "&r."));
+                                + playername + "&r's age to &a" + result + "&r."));
                         break;
                     }
 
@@ -107,9 +109,9 @@ public class CommandHandler implements CommandExecutor {
                                     G.translateColor(G.failed + "Invalid argument list length"));
                             return true;
                         }
-                        if (!ageData.contains(args[1])) {
+                        if (!ageData.contains(playerUUID)) {
                             sender.sendMessage(G.translateColor(
-                                    G.failed + "There is no such user named &c" + args[1] + "&r."));
+                                    G.failed + "There is no such user named &c" + playername + "&r."));
                             return true;
                         }
                         if (args.length == 3) {
@@ -119,7 +121,7 @@ public class CommandHandler implements CommandExecutor {
                                 return true;
                             }
                         }
-                        Integer oldAge = ageData.getInt(args[1]);
+                        Integer oldAge = ageData.getInt(playerUUID + ".age");
                         Integer subtrahend = args.length == 2 ? 1 : Integer.parseInt(args[2]);
                         Integer result = oldAge - subtrahend;
                         if (oldAge == 0) {
@@ -133,10 +135,10 @@ public class CommandHandler implements CommandExecutor {
                                             + "&r."));
                             return true;
                         }
-                        ageData.set(args[1], result);
+                        ageData.set(playerUUID + ".age", result);
                         this.plug.saveData();
                         sender.sendMessage(G.translateColor(G.success + "Successfully set &a"
-                                + args[1] + "&r's age to &a" + result + "&r."));
+                                + playername + "&r's age to &a" + result + "&r."));
                         break;
                     }
 
