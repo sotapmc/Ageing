@@ -40,8 +40,12 @@ public class DataController {
         Integer rangeLength = config.getInt("growth_range_length");
         Integer rangeAt = this.getAgeRangeAt(config, age);
         Integer result = 0;
-        for (int i = 0; i < rangeAt; i += 1) {
-            result += rangeLength * this.getGrowthCostAtRange(config, i);
+        if (rangeAt == 0) {
+            result = age * config.getInt("growth_base_value");
+        } else {
+            for (int i = 0; i < rangeAt; i += 1) {
+                result += rangeLength * this.getGrowthCostAtRange(config, i);
+            }
         }
         return result;
     }
