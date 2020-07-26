@@ -80,7 +80,7 @@ public class CommandHandler implements CommandExecutor {
                     }
 
                     case "add": {
-                        if (!(args.length == 2 || args.length == 3)) {
+                        if (args.length != 2 || args.length != 3) {
                             sender.sendMessage(
                                     G.translateColor(G.failed + "Invalid argument list length"));
                             return true;
@@ -108,7 +108,7 @@ public class CommandHandler implements CommandExecutor {
                     }
 
                     case "sub": {
-                        if (!(args.length == 2 || args.length == 3)) {
+                        if (args.length != 2 || args.length != 3) {
                             sender.sendMessage(
                                     G.translateColor(G.failed + "Invalid argument list length"));
                             return true;
@@ -135,7 +135,7 @@ public class CommandHandler implements CommandExecutor {
                     }
 
                     case "setexp": {
-                        if (!(args.length == 3)) {
+                        if (args.length != 3) {
                             sender.sendMessage(
                                     G.translateColor(G.failed + "Invalid argument list length"));
                             return true;
@@ -150,7 +150,7 @@ public class CommandHandler implements CommandExecutor {
                     }
 
                     case "addexp": {
-                        if (!(args.length == 3)) {
+                        if (args.length != 3) {
                             sender.sendMessage(
                                     G.translateColor(G.failed + "Invalid argument list length"));
                             return true;
@@ -166,7 +166,7 @@ public class CommandHandler implements CommandExecutor {
                     }
 
                     case "subexp": {
-                        if (!(args.length == 3)) {
+                        if (args.length != 3) {
                             sender.sendMessage(
                                     G.translateColor(G.failed + "Invalid argument list length"));
                             return true;
