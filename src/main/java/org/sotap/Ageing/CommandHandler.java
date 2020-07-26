@@ -26,7 +26,7 @@ public class CommandHandler implements CommandExecutor {
                         playerUUID = Bukkit.getPlayer(playername).getUniqueId().toString();
                     } catch (NullPointerException npe) {
                         sender.sendMessage(G.translateColor(G.failed
-                        + "There is no such user named &c" + playername + "&r."));
+                        + "The player isn't &conline&r or does &cnot exist&r."));
                         return true;
                     }
                 }
@@ -52,7 +52,7 @@ public class CommandHandler implements CommandExecutor {
                                     + config.getInt("max_age") + "&r) defined in the config."));
                             return true;
                         }
-                        ageData.set(playerUUID + ".age", newAge);
+                        this.plug.controller.updateAge(playername, newAge);
                         this.plug.saveData();
                         sender.sendMessage(G.translateColor(G.success + "Successfully set &a"
                                 + playername + "&r's age to &a" + args[2] + "&r."));
@@ -108,7 +108,7 @@ public class CommandHandler implements CommandExecutor {
                                     + (maxAge - oldAge) + "&r)"));
                             return true;
                         }
-                        ageData.set(playerUUID + ".age", result);
+                        this.plug.controller.updateAge(playername, result);
                         this.plug.saveData();
                         sender.sendMessage(G.translateColor(G.success + "Successfully set &a"
                                 + playername + "&r's age to &a" + result + "&r."));
@@ -147,7 +147,7 @@ public class CommandHandler implements CommandExecutor {
                                             + "&r."));
                             return true;
                         }
-                        ageData.set(playerUUID + ".age", result);
+                        this.plug.controller.updateAge(playername, result);
                         this.plug.saveData();
                         sender.sendMessage(G.translateColor(G.success + "Successfully set &a"
                                 + playername + "&r's age to &a" + result + "&r."));
