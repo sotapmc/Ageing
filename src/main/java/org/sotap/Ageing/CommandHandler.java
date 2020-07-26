@@ -134,6 +134,53 @@ public class CommandHandler implements CommandExecutor {
                         break;
                     }
 
+                    case "setexp": {
+                        if (!(args.length == 3)) {
+                            sender.sendMessage(
+                                    G.translateColor(G.failed + "Invalid argument list length"));
+                            return true;
+                        }
+                        Integer newExp = Integer.parseInt(args[2]);
+                        if (!plug.controller.updateExperience(playername, newExp)) {
+                            sender.sendMessage(G.translateColor(G.failed
+                                    + "An &cfatal error&r occurred, please check the &econsole&r."));
+                            return true;
+                        }
+                        break;
+                    }
+
+                    case "addexp": {
+                        if (!(args.length == 3)) {
+                            sender.sendMessage(
+                                    G.translateColor(G.failed + "Invalid argument list length"));
+                            return true;
+                        }
+                        Integer oldExp = plug.ageData.getInt(playerUUID + ".exp");
+                        Integer newExp = oldExp + Integer.parseInt(args[2]);
+                        if (!plug.controller.updateExperience(playername, newExp)) {
+                            sender.sendMessage(G.translateColor(G.failed
+                                    + "An &cfatal error&r occurred, please check if the player is &conline&r and the input is &ccalculatable&r."));
+                            return true;
+                        }
+                        break;
+                    }
+
+                    case "subexp": {
+                        if (!(args.length == 3)) {
+                            sender.sendMessage(
+                                    G.translateColor(G.failed + "Invalid argument list length"));
+                            return true;
+                        }
+                        Integer oldExp = plug.ageData.getInt(playerUUID + ".exp");
+                        Integer newExp = oldExp - Integer.parseInt(args[2]);
+                        if (!plug.controller.updateExperience(playername, newExp)) {
+                            sender.sendMessage(G.translateColor(G.failed
+                                    + "An &cfatal error&r occurred, please check if the player is &conline&r and the input is &ccalculatable&r."));
+                            return true;
+                        }
+                        break;
+                    }
+
                     case "reload": {
                         plug.reloadConfig();
                         plug.reloadData();
