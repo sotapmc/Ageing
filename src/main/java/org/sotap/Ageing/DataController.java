@@ -68,6 +68,33 @@ public class DataController {
     }
 
     public void updateExperience(String playername, Integer newExperience) {
-        // to be continued
+        String uuid = Bukkit.getPlayer(playername).getUniqueId().toString();
+        Integer oldAge = this.plug.ageData.getInt(uuid + ".age");
+        Integer newAge = oldAge;
+        Integer oldExperience = this.plug.ageData.getInt(uuid + ".exp");
+        Integer addExperience = Math.abs(newExperience - oldExperience);
+        Integer ageGrowthExp = getGrowthCostTo(oldAge + 1) - oldExperience;
+        Integer ageDecayExp = oldExperience - getGrowthCostTo(oldAge);
+
+        if (newExperience == oldExperience) {
+            return;
+        } else if (newExperience > oldExperience) {
+            while (addExperience >= ageGrowthExp) {
+                newAge++;
+                addExperience -= ageGrowthExp;
+                oldExperience += ageGrowthExp;
+                ageGrowthExp = getGrowthCostTo(newAge + 1) - oldExperience;
+            }
+        } else if (newExperience < oldExperience) {
+            while (addExperience >= ageDecayExp) {
+                newAge--;
+                addExperience -= ageDecayExp;
+                oldExperience -= ageDecayExp;
+                ageDecayExp = oldExperience - getGrowthCostTo(newAge);
+            }
+        }
+
+        this.plug.ageData.set(uuid + ".age", newAge);
+        this.plug.ageData.set(uuid + ".exp", newExperience);
     }
 }
