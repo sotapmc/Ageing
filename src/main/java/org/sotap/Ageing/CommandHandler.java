@@ -25,24 +25,32 @@ public class CommandHandler implements CommandExecutor {
                     try {
                         playerUUID = Bukkit.getPlayer(playername).getUniqueId().toString();
                     } catch (NullPointerException npe) {
-                        sender.sendMessage(G.translateColor(G.failed
-                        + "The player isn't &conline&r or does &cnot exist&r."));
+                        sender.sendMessage(G.translateColor(
+                                G.failed + "The player isn't &conline&r or does &cnot exist&r."));
                         return true;
                     }
                 }
                 FileConfiguration config = plug.getConfig();
-                FileConfiguration ageData = plug.ageData;
+
+                if (!plug.ageData.contains(playerUUID)) {
+                    sender.sendMessage(G.translateColor(
+                            G.failed + "There is no data for &c" + playername + "&r."));
+                    return true;
+                }
+
+                if (args.length == 3) {
+                    if (!G.isStringIntegerNatural(args[2])) {
+                        sender.sendMessage(G.translateColor(
+                                G.failed + "&cNatural integer &rrequired."));
+                        return true;
+                    }
+                }
 
                 switch (arg) {
                     case "set": {
                         if (args.length != 3) {
                             sender.sendMessage(
                                     G.translateColor(G.failed + "Invalid argument list length."));
-                            return true;
-                        }
-                        if (!G.isStringIntegerNatural(args[2])) {
-                            sender.sendMessage(
-                                    G.translateColor(G.failed + "The age must be &cnatural&r."));
                             return true;
                         }
                         Integer newAge = Integer.parseInt(args[2]);
@@ -65,36 +73,20 @@ public class CommandHandler implements CommandExecutor {
                                     G.translateColor(G.failed + "Invalid argument list length"));
                             return true;
                         }
-                        if (!ageData.contains(playerUUID)) {
-                            sender.sendMessage(G.translateColor(G.failed
-                                    + "There is no data for &c" + playername + "&r."));
-                        }
-                        Integer age = ageData.getInt(playerUUID + ".age");
+                        Integer age = plug.ageData.getInt(playerUUID + ".age");
                         sender.sendMessage(G.translateColor(G.info + "The age of &a" + playername
                                 + "&r is &a" + Integer.toString(age) + "&r."));
                         break;
                     }
 
                     case "add": {
-                        if (!(args.length >= 2)) {
+                        if (!(args.length == 2 || args.length == 3)) {
                             sender.sendMessage(
                                     G.translateColor(G.failed + "Invalid argument list length"));
                             return true;
                         }
-                        if (!ageData.contains(playerUUID)) {
-                            sender.sendMessage(G.translateColor(G.failed
-                                    + "There is no data for &c" + playername + "&r."));
-                            return true;
-                        }
-                        if (args.length == 3) {
-                            if (!G.isStringIntegerNatural(args[2])) {
-                                sender.sendMessage(G.translateColor(
-                                        G.failed + "&cNatural integer &rrequired."));
-                                return true;
-                            }
-                        }
                         Integer maxAge = config.getInt("max_age");
-                        Integer oldAge = ageData.getInt(playerUUID + ".age");
+                        Integer oldAge = plug.ageData.getInt(playerUUID + ".age");
                         Integer addend = args.length == 2 ? 1 : Integer.parseInt(args[2]);
                         Integer result = oldAge + addend;
                         if (maxAge == oldAge) {
@@ -116,24 +108,12 @@ public class CommandHandler implements CommandExecutor {
                     }
 
                     case "sub": {
-                        if (!(args.length >= 2)) {
+                        if (!(args.length == 2 || args.length == 3)) {
                             sender.sendMessage(
                                     G.translateColor(G.failed + "Invalid argument list length"));
                             return true;
                         }
-                        if (!ageData.contains(playerUUID)) {
-                            sender.sendMessage(G.translateColor(G.failed
-                                    + "There is no such user named &c" + playername + "&r."));
-                            return true;
-                        }
-                        if (args.length == 3) {
-                            if (!G.isStringIntegerNatural(args[2]) && args.length == 3) {
-                                sender.sendMessage(G.translateColor(
-                                        G.failed + "&cNatural integer &rrequired."));
-                                return true;
-                            }
-                        }
-                        Integer oldAge = ageData.getInt(playerUUID + ".age");
+                        Integer oldAge = plug.ageData.getInt(playerUUID + ".age");
                         Integer subtrahend = args.length == 2 ? 1 : Integer.parseInt(args[2]);
                         Integer result = oldAge - subtrahend;
                         if (oldAge == 0) {
