@@ -192,6 +192,7 @@ public class CommandHandler implements CommandExecutor {
                         }
                         Integer exp = plug.ageData.getInt(playerUUID + ".exp");
                         sender.sendMessage(G.translateColor(G.info + "The experience value of &a" + playername + "&r is &a" + exp.toString() + "&r."));
+                        break;
                     }
 
                     case "reload": {
