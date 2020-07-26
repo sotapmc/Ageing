@@ -46,6 +46,16 @@ public class DataController {
             for (int i = 0; i < rangeAt; i += 1) {
                 result += rangeLength * this.getGrowthCostAtRange(config, i);
             }
+            result += (age - (rangeLength * rangeAt - 1)) * this.getGrowthCostAtRange(config, rangeAt);
+            /**
+             * 从第 0 区间向第 1 区间跳跃时，中间会多出一个 b，因此在这里减去来平衡
+             * 例如，若 r=5, b=200, s=150，当 n=4 时 exp=800
+             * 当 n=5 时，可知 i=1，则 exp=b*r+i(b+s)=200*5+200+150=1350
+             * 那么 n=5 和 n=4 的 exp 值就相差了 550 多出了 200，也就是多出了一个 b 的值
+             * 这当然能在上面的 for 循环中改掉，但是会降低效率，因此不如直接在这里减去 b
+             * 为了避免后续理解上的问题，故写下这些解释
+             */
+            result -= config.getInt("growth_base_value");
         }
         return result;
     }
