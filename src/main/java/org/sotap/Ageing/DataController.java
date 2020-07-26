@@ -23,20 +23,11 @@ public class DataController {
 
     // 获取当前区间内长一岁所需要的经验数
     private Integer getGrowthCostAtRange(FileConfiguration config, Integer range) {
-        Integer stepValue = config.getInt("growth_step_value");
-        return config.getInt("growth_base_value") + (stepValue * range);
-    }
-
-    // 获取当前年龄所在的区间内长一岁所需要的经验数
-    public Integer getGrowthCost(Integer age) {
-        FileConfiguration config = plug.getConfig();
-        Integer stepValue = config.getInt("growth_step_value");
-        return config.getInt("growth_base_value") + (stepValue * getAgeRangeAt(config, age));
+        return config.getInt("growth_base_value") + (config.getInt("growth_step_value") * range);
     }
 
     // 获取长至指定年龄所需要的总经验数
-    public Integer getGrowthCostTo(Integer age) {
-        FileConfiguration config = plug.getConfig();
+    private Integer getGrowthCostTo(FileConfiguration config, Integer age) {
         Integer rangeLength = config.getInt("growth_range_length");
         Integer rangeAt = getAgeRangeAt(config, age);
         Integer result = 0;
@@ -62,19 +53,21 @@ public class DataController {
     }
 
     public void updateAge(String playername, Integer newAge) {
+        FileConfiguration config = plug.getConfig();
         String uuid = Bukkit.getPlayer(playername).getUniqueId().toString();
         plug.ageData.set(uuid + ".age", newAge);
-        plug.ageData.set(uuid + ".exp", getGrowthCostTo(newAge));
+        plug.ageData.set(uuid + ".exp", getGrowthCostTo(config, newAge));
     }
 
     public void updateExperience(String playername, Integer newExperience) {
+        FileConfiguration config = plug.getConfig();
         String uuid = Bukkit.getPlayer(playername).getUniqueId().toString();
         Integer oldAge = plug.ageData.getInt(uuid + ".age");
         Integer newAge = oldAge;
         Integer oldExperience = plug.ageData.getInt(uuid + ".exp");
         Integer addExperience = Math.abs(newExperience - oldExperience);
-        Integer ageGrowthExp = getGrowthCostTo(oldAge + 1) - oldExperience;
-        Integer ageDecayExp = oldExperience - getGrowthCostTo(oldAge);
+        Integer ageGrowthExp = getGrowthCostTo(config, oldAge + 1) - oldExperience;
+        Integer ageDecayExp = oldExperience - getGrowthCostTo(config, oldAge);
 
         if (newExperience == oldExperience) {
             return;
@@ -83,14 +76,14 @@ public class DataController {
                 newAge++;
                 addExperience -= ageGrowthExp;
                 oldExperience += ageGrowthExp;
-                ageGrowthExp = getGrowthCostTo(newAge + 1) - oldExperience;
+                ageGrowthExp = getGrowthCostTo(config, newAge + 1) - oldExperience;
             }
         } else if (newExperience < oldExperience) {
             while (addExperience >= ageDecayExp) {
                 newAge--;
                 addExperience -= ageDecayExp;
                 oldExperience -= ageDecayExp;
-                ageDecayExp = oldExperience - getGrowthCostTo(newAge);
+                ageDecayExp = oldExperience - getGrowthCostTo(config, newAge);
             }
         }
 
