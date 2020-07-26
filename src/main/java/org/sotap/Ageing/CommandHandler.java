@@ -146,6 +146,7 @@ public class CommandHandler implements CommandExecutor {
                                     + "An &cfatal error&r occurred, please check the &econsole&r."));
                             return true;
                         }
+                        sender.sendMessage(G.translateColor(G.success + "Successfully set &a" + playername + "&r's exp to &a" + args[2] + "&r."));
                         break;
                     }
 
@@ -162,6 +163,7 @@ public class CommandHandler implements CommandExecutor {
                                     + "An &cfatal error&r occurred, please check if the player is &conline&r and the input is &ccalculatable&r."));
                             return true;
                         }
+                        sender.sendMessage(G.translateColor(G.success + "Successfully give &a" + args[2] + " exp &rto &a" + playername + "&r."));
                         break;
                     }
 
@@ -178,7 +180,18 @@ public class CommandHandler implements CommandExecutor {
                                     + "An &cfatal error&r occurred, please check if the player is &conline&r and the input is &ccalculatable&r."));
                             return true;
                         }
+                        sender.sendMessage(G.translateColor(G.success + "Successfully take &a" + args[2] + " exp &rfrom &a" + playername + "&r."));
                         break;
+                    }
+
+                    case "getexp": {
+                        if (args.length != 2) {
+                            sender.sendMessage(
+                                    G.translateColor(G.failed + "Invalid argument list length"));
+                            return true; 
+                        }
+                        Integer exp = plug.ageData.getInt(playerUUID + ".exp");
+                        sender.sendMessage(G.translateColor(G.info + "The experience value of &a" + playername + "&r is &a" + exp.toString() + "&r."));
                     }
 
                     case "reload": {
