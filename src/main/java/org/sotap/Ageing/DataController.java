@@ -52,15 +52,46 @@ public class DataController {
         return result;
     }
 
-    public void updateAge(String playername, Integer newAge) {
+    private Boolean checkAll(String playername, Integer newValue, FileConfiguration config) {
+        Integer baseValue = config.getInt("growth_base_value");
+        Integer stepValue = config.getInt("growth_step_value");
+        Integer rangeLength = config.getInt("growth_range_length");
+        try {
+            @SuppressWarnings("unused")
+            String uuid = Bukkit.getPlayer(playername).getUniqueId().toString();
+        } catch (Exception e) {
+            return false;
+        }
+        return baseValue > 0 && stepValue > 0 && rangeLength > 0 && newValue >= 0;
+    }
+
+    public Boolean updateAge(String playername, Integer newAge) {
         FileConfiguration config = plug.getConfig();
+        if (checkAll(playername, newAge, config)) {
+            Integer maxAge = config.getInt("max_age");
+            if (!(newAge <= maxAge)) {
+                return false;
+            }
+        } else {
+            return false;
+        }
         String uuid = Bukkit.getPlayer(playername).getUniqueId().toString();
         plug.ageData.set(uuid + ".age", newAge);
         plug.ageData.set(uuid + ".exp", getGrowthCostTo(config, newAge));
+        plug.saveData();
+        return true;
     }
 
-    public void updateExperience(String playername, Integer newExperience) {
+    public Boolean updateExperience(String playername, Integer newExperience) {
         FileConfiguration config = plug.getConfig();
+        if (checkAll(playername, newExperience, config)) {
+            Integer maxExp = getGrowthCostTo(config, config.getInt("max_age"));
+            if (!(newExperience <= maxExp)) {
+                return false;
+            }
+        } else {
+            return false;
+        }
         String uuid = Bukkit.getPlayer(playername).getUniqueId().toString();
         Integer oldAge = plug.ageData.getInt(uuid + ".age");
         Integer newAge = oldAge;
@@ -69,25 +100,28 @@ public class DataController {
         Integer ageGrowthExp = getGrowthCostTo(config, oldAge + 1) - oldExperience;
         Integer ageDecayExp = oldExperience - getGrowthCostTo(config, oldAge);
 
-        if (newExperience == oldExperience) {
-            return;
-        } else if (newExperience > oldExperience) {
-            while (addExperience >= ageGrowthExp) {
-                newAge++;
-                addExperience -= ageGrowthExp;
-                oldExperience += ageGrowthExp;
-                ageGrowthExp = getGrowthCostTo(config, newAge + 1) - oldExperience;
+        if (newExperience > 0) {
+            if (newExperience > oldExperience) {
+                while (addExperience >= ageGrowthExp) {
+                    newAge++;
+                    addExperience -= ageGrowthExp;
+                    oldExperience += ageGrowthExp;
+                    ageGrowthExp = getGrowthCostTo(config, newAge + 1) - oldExperience;
+                }
+            } else if (newExperience < oldExperience) {
+                while (addExperience >= ageDecayExp) {
+                    newAge--;
+                    addExperience -= ageDecayExp;
+                    oldExperience -= ageDecayExp;
+                    ageDecayExp = oldExperience - getGrowthCostTo(config, newAge);
+                }
             }
-        } else if (newExperience < oldExperience) {
-            while (addExperience >= ageDecayExp) {
-                newAge--;
-                addExperience -= ageDecayExp;
-                oldExperience -= ageDecayExp;
-                ageDecayExp = oldExperience - getGrowthCostTo(config, newAge);
-            }
+        } else {
+            newAge = 0;
         }
-
         plug.ageData.set(uuid + ".age", newAge);
         plug.ageData.set(uuid + ".exp", newExperience);
+        plug.saveData();
+        return true;
     }
 }
