@@ -20,29 +20,29 @@ public class Events implements Listener {
     public void onPlayerJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
         String uuid = p.getUniqueId().toString();
-        if (!p.hasPlayedBefore() || !this.plug.ageData.contains(uuid)) {
+        if (!p.hasPlayedBefore() || !plug.ageData.contains(uuid)) {
             String name = p.getName();
-            this.plug.log(G.translateColor(G.info + "Detected a new player &a" + name + "&r, initializing data..."));
-            this.plug.ageData.set(uuid + ".username", name);
-            this.plug.ageData.set(uuid + ".age", 0);
-            this.plug.ageData.set(uuid + ".exp", 0);
-            this.plug.saveData();
-            this.plug.log(G.translateColor(G.success + "Initialization OK"));
+            plug.log(G.translateColor(G.info + "Detected a new player &a" + name + "&r, initializing data..."));
+            plug.ageData.set(uuid + ".username", name);
+            plug.ageData.set(uuid + ".age", 0);
+            plug.ageData.set(uuid + ".exp", 0);
+            plug.saveData();
+            plug.log(G.translateColor(G.success + "Initialization OK"));
         } else {
-            if (this.plug.ageData.getString(uuid + ".username") != p.getName()) {
-                this.plug.ageData.set(uuid + ".username", p.getName());
+            if (plug.ageData.getString(uuid + ".username") != p.getName()) {
+                plug.ageData.set(uuid + ".username", p.getName());
             }
         }
     }
 
     @EventHandler
     public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent e) {
-        FileConfiguration config = this.plug.getConfig();
+        FileConfiguration config = plug.getConfig();
         Player p = e.getPlayer();
         String uuid = p.getUniqueId().toString();
         String commandLabel = e.getMessage().substring(1);
 
-        Integer currentAge = this.plug.ageData.getInt(uuid + ".age");
+        Integer currentAge = plug.ageData.getInt(uuid + ".age");
         Integer lowestLimit = config.getInt("command_lowest_limit");
         Integer finalAgeLimit = 0;
 

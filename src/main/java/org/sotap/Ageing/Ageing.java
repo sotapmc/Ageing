@@ -14,21 +14,21 @@ public class Ageing extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        this.saveDefaultConfig();
-        this.ageData = this.load("age.yml");
-        this.controller = new DataController(this);
-        this.getLogger().info(G.translateColor(G.success + "The plugin has been &aenabled&r."));
+        saveDefaultConfig();
+        ageData = load("age.yml");
+        controller = new DataController(this);
+        getLogger().info(G.translateColor(G.success + "The plugin has been &aenabled&r."));
         Bukkit.getPluginCommand("age").setExecutor(new CommandHandler(this));
-        this.getServer().getPluginManager().registerEvents(new Events(this), this);
+        getServer().getPluginManager().registerEvents(new Events(this), this);
     }
 
     @Override
     public void onDisable() {
-        this.getLogger().info(G.translateColor(G.success + "The plugin has been &cdisabled&r."));
+        getLogger().info(G.translateColor(G.success + "The plugin has been &cdisabled&r."));
     }
 
     public FileConfiguration load(String filename) {
-        File folder = this.getDataFolder();
+        File folder = getDataFolder();
         File file = new File(folder, filename);
         if (!folder.exists()) {
             folder.mkdir();
@@ -44,18 +44,18 @@ public class Ageing extends JavaPlugin {
     }
 
     public void reloadData() {
-        this.ageData = this.load("age.yml");
+        ageData = load("age.yml");
     }
 
     public void saveData() {
         try {
-            this.ageData.save(new File(this.getDataFolder(), "age.yml"));
+            ageData.save(new File(getDataFolder(), "age.yml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public void log(String message) {
-        this.getLogger().info(message);
+        getLogger().info(message);
     }
 }

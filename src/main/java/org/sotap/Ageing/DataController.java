@@ -29,24 +29,24 @@ public class DataController {
 
     // 获取当前年龄所在的区间内长一岁所需要的经验数
     public Integer getGrowthCost(Integer age) {
-        FileConfiguration config = this.plug.getConfig();
+        FileConfiguration config = plug.getConfig();
         Integer stepValue = config.getInt("growth_step_value");
-        return config.getInt("growth_base_value") + (stepValue * this.getAgeRangeAt(config, age));
+        return config.getInt("growth_base_value") + (stepValue * getAgeRangeAt(config, age));
     }
 
     // 获取长至指定年龄所需要的总经验数
     public Integer getGrowthCostTo(Integer age) {
-        FileConfiguration config = this.plug.getConfig();
+        FileConfiguration config = plug.getConfig();
         Integer rangeLength = config.getInt("growth_range_length");
-        Integer rangeAt = this.getAgeRangeAt(config, age);
+        Integer rangeAt = getAgeRangeAt(config, age);
         Integer result = 0;
         if (rangeAt == 0) {
             result = age * config.getInt("growth_base_value");
         } else {
             for (int i = 0; i < rangeAt; i += 1) {
-                result += rangeLength * this.getGrowthCostAtRange(config, i);
+                result += rangeLength * getGrowthCostAtRange(config, i);
             }
-            result += (age - (rangeLength * rangeAt - 1)) * this.getGrowthCostAtRange(config, rangeAt);
+            result += (age - (rangeLength * rangeAt - 1)) * getGrowthCostAtRange(config, rangeAt);
             /**
              * 从第 0 区间向第 1 区间跳跃时，中间会多出一个 b，因此在这里减去来平衡
              * 例如，若 r=5, b=200, s=150，当 n=4 时 exp=800
@@ -63,15 +63,15 @@ public class DataController {
 
     public void updateAge(String playername, Integer newAge) {
         String uuid = Bukkit.getPlayer(playername).getUniqueId().toString();
-        this.plug.ageData.set(uuid + ".age", newAge);
-        this.plug.ageData.set(uuid + ".exp", this.getGrowthCostTo(newAge));
+        plug.ageData.set(uuid + ".age", newAge);
+        plug.ageData.set(uuid + ".exp", getGrowthCostTo(newAge));
     }
 
     public void updateExperience(String playername, Integer newExperience) {
         String uuid = Bukkit.getPlayer(playername).getUniqueId().toString();
-        Integer oldAge = this.plug.ageData.getInt(uuid + ".age");
+        Integer oldAge = plug.ageData.getInt(uuid + ".age");
         Integer newAge = oldAge;
-        Integer oldExperience = this.plug.ageData.getInt(uuid + ".exp");
+        Integer oldExperience = plug.ageData.getInt(uuid + ".exp");
         Integer addExperience = Math.abs(newExperience - oldExperience);
         Integer ageGrowthExp = getGrowthCostTo(oldAge + 1) - oldExperience;
         Integer ageDecayExp = oldExperience - getGrowthCostTo(oldAge);
@@ -94,7 +94,7 @@ public class DataController {
             }
         }
 
-        this.plug.ageData.set(uuid + ".age", newAge);
-        this.plug.ageData.set(uuid + ".exp", newExperience);
+        plug.ageData.set(uuid + ".age", newAge);
+        plug.ageData.set(uuid + ".exp", newExperience);
     }
 }

@@ -30,8 +30,8 @@ public class CommandHandler implements CommandExecutor {
                         return true;
                     }
                 }
-                FileConfiguration config = this.plug.getConfig();
-                FileConfiguration ageData = this.plug.ageData;
+                FileConfiguration config = plug.getConfig();
+                FileConfiguration ageData = plug.ageData;
 
                 switch (arg) {
                     case "set": {
@@ -52,8 +52,8 @@ public class CommandHandler implements CommandExecutor {
                                     + config.getInt("max_age") + "&r) defined in the config."));
                             return true;
                         }
-                        this.plug.controller.updateAge(playername, newAge);
-                        this.plug.saveData();
+                        plug.controller.updateAge(playername, newAge);
+                        plug.saveData();
                         sender.sendMessage(G.translateColor(G.success + "Successfully set &a"
                                 + playername + "&r's age to &a" + args[2] + "&r."));
                         break;
@@ -108,8 +108,8 @@ public class CommandHandler implements CommandExecutor {
                                     + (maxAge - oldAge) + "&r)"));
                             return true;
                         }
-                        this.plug.controller.updateAge(playername, result);
-                        this.plug.saveData();
+                        plug.controller.updateAge(playername, result);
+                        plug.saveData();
                         sender.sendMessage(G.translateColor(G.success + "Successfully set &a"
                                 + playername + "&r's age to &a" + result + "&r."));
                         break;
@@ -147,16 +147,16 @@ public class CommandHandler implements CommandExecutor {
                                             + "&r."));
                             return true;
                         }
-                        this.plug.controller.updateAge(playername, result);
-                        this.plug.saveData();
+                        plug.controller.updateAge(playername, result);
+                        plug.saveData();
                         sender.sendMessage(G.translateColor(G.success + "Successfully set &a"
                                 + playername + "&r's age to &a" + result + "&r."));
                         break;
                     }
 
                     case "reload": {
-                        this.plug.reloadConfig();
-                        this.plug.reloadData();
+                        plug.reloadConfig();
+                        plug.reloadData();
                         sender.sendMessage(G.translateColor(
                                 G.success + "Successfully reload the plugin configuration"));
                         break;
