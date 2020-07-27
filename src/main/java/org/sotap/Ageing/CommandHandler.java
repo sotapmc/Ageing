@@ -29,14 +29,15 @@ public class CommandHandler implements CommandExecutor {
                                 G.failed + "The player isn't &conline&r or does &cnot exist&r."));
                         return true;
                     }
-                }
-                FileConfiguration config = plug.getConfig();
 
-                if (!plug.ageData.contains(playerUUID)) {
-                    sender.sendMessage(G.translateColor(
-                            G.failed + "There is no data for &c" + playername + "&r."));
-                    return true;
+                    if (!plug.ageData.contains(playerUUID)) {
+                        sender.sendMessage(G.translateColor(
+                                G.failed + "There is no data for &c" + playername + "&r."));
+                        return true;
+                    }
                 }
+
+                FileConfiguration config = plug.getConfig();
 
                 if (args.length == 3) {
                     if (!G.isStringIntegerNatural(args[2])) {
