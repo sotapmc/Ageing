@@ -79,7 +79,7 @@ public class DataController {
     // 获取达到该年龄后可获得的奖励
     // 该函数只能在自然成长过程中生效，因为它只会判断当前年龄是否有存在的奖励设定
     private List<String> getAgeAwardsAt(FileConfiguration config, Integer age) {
-        ConfigurationSection awards = config.getConfigurationSection("age_awards");
+        ConfigurationSection awards = config.getConfigurationSection("age_commands");
         if (awards.contains(age.toString())) {
             return awards.getStringList(age.toString());
         }
