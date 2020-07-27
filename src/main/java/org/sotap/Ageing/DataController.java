@@ -65,6 +65,17 @@ public class DataController {
         return baseValue > 0 && stepValue > 0 && rangeLength > 0 && newValue >= 0;
     }
 
+    // 获取该年龄所在区间的最小值
+    private Integer floorAge(FileConfiguration config, Integer age) {
+        return age - (age % config.getInt("growth_range_length"));
+    }
+
+    // 获取该年龄所在区间的最大值
+    private Integer ceilAge(FileConfiguration config, Integer age) {
+        Integer rangeLength = config.getInt("growth_range_length");
+        return age - (age % rangeLength) + rangeLength - 1;
+    }
+
     public Boolean updateAge(String playername, Integer newAge) {
         FileConfiguration config = plug.getConfig();
         if (checkAll(playername, newAge, config)) {
@@ -121,6 +132,9 @@ public class DataController {
         }
         plug.ageData.set(uuid + ".age", newAge);
         plug.ageData.set(uuid + ".exp", newExperience);
+        if (newAge > oldAge) {
+
+        }
         plug.saveData();
         return true;
     }
