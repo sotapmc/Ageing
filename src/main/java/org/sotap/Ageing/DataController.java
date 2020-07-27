@@ -1,7 +1,11 @@
 package org.sotap.Ageing;
 
+import java.util.List;
 import org.bukkit.Bukkit;
+import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 
 public class DataController {
     public Ageing plug;
@@ -39,13 +43,10 @@ public class DataController {
             }
             result += (age - (rangeLength * rangeAt - 1)) * getGrowthCostAtRange(config, rangeAt);
             /**
-             * 从第 0 区间向第 1 区间跳跃时，中间会多出一个 b，因此在这里减去来平衡
-             * 例如，若 r=5, b=200, s=150，当 n=4 时 exp=800
-             * 当 n=5 时，可知 i=1，则 exp=b*r+i(b+s)=200*5+200+150=1350
-             * 那么 n=5 和 n=4 的 exp 值就相差了 550 多出了 200，也就是多出了一个 b 的值
-             * 这当然能在上面的 for 循环中改掉，仅需对 rangeLength 做手脚，
-             * 但很明显会用到 if 且逻辑并不简单，因而会降低效率，因此不如直接在这里减去 b
-             * 为了避免后续理解上的问题，故写下这些解释
+             * 从第 0 区间向第 1 区间跳跃时，中间会多出一个 b，因此在这里减去来平衡 例如，若 r=5, b=200, s=150，当 n=4 时 exp=800 当 n=5
+             * 时，可知 i=1，则 exp=b*r+i(b+s)=200*5+200+150=1350 那么 n=5 和 n=4 的 exp 值就相差了 550 多出了
+             * 200，也就是多出了一个 b 的值 这当然能在上面的 for 循环中改掉，仅需对 rangeLength 做手脚， 但很明显会用到 if
+             * 且逻辑并不简单，因而会降低效率，因此不如直接在这里减去 b 为了避免后续理解上的问题，故写下这些解释
              */
             result -= config.getInt("growth_base_value");
         }
@@ -74,6 +75,16 @@ public class DataController {
     private Integer ceilAge(FileConfiguration config, Integer age) {
         Integer rangeLength = config.getInt("growth_range_length");
         return age - (age % rangeLength) + rangeLength - 1;
+    }
+
+    // 获取达到该年龄后可获得的奖励
+    // 该函数只能在自然成长过程中生效，因为它只会判断当前年龄是否有存在的奖励设定
+    private List<String> getAgeAwardsAt(FileConfiguration config, Integer age) {
+        ConfigurationSection awards = config.getConfigurationSection("age_awards");
+        if (awards.contains(age.toString())) {
+            return awards.getStringList(age.toString());
+        }
+        return null;
     }
 
     public Boolean updateAge(String playername, Integer newAge) {
@@ -133,7 +144,12 @@ public class DataController {
         plug.ageData.set(uuid + ".age", newAge);
         plug.ageData.set(uuid + ".exp", newExperience);
         if (newAge > oldAge) {
-
+            List<String> award = getAgeAwardsAt(config, newAge);
+            ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
+            for (String cmd : award) {
+                Bukkit.dispatchCommand(console,
+                        cmd.replace("%username%", playername).replace("%uuid%", uuid));
+            }
         }
         plug.saveData();
         return true;
