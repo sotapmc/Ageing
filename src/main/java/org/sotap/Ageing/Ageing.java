@@ -8,23 +8,23 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class Ageing extends JavaPlugin {
-    FileConfiguration ageData;
-    DataController controller;
+public final class Ageing extends JavaPlugin {
+    public FileConfiguration ageData;
+    public DataController controller;
 
     @Override
     public void onEnable() {
         saveDefaultConfig();
         ageData = load("age.yml");
         controller = new DataController(this);
-        getLogger().info(G.translateColor(G.success + "The plugin has been &aenabled&r."));
+        getLogger().info(G.translateColor(G.SUCCESS + "The plugin has been &aenabled&r."));
         Bukkit.getPluginCommand("age").setExecutor(new CommandHandler(this));
         getServer().getPluginManager().registerEvents(new Events(this), this);
     }
 
     @Override
     public void onDisable() {
-        getLogger().info(G.translateColor(G.success + "The plugin has been &cdisabled&r."));
+        getLogger().info(G.translateColor(G.SUCCESS + "The plugin has been &cdisabled&r."));
     }
 
     public FileConfiguration load(String filename) {

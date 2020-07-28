@@ -9,8 +9,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 
-public class Events implements Listener {
-    public Ageing plug;
+public final class Events implements Listener {
+    public final Ageing plug;
 
     public Events(Ageing plug) {
         this.plug = plug;
@@ -22,12 +22,13 @@ public class Events implements Listener {
         String uuid = p.getUniqueId().toString();
         if (!p.hasPlayedBefore() || !plug.ageData.contains(uuid)) {
             String name = p.getName();
-            plug.log(G.translateColor(G.info + "Detected a new player &a" + name + "&r, initializing data..."));
+            plug.log(G.translateColor(G.INFO + "Detected a new player &a" + name
+                    + "&r, initializing data..."));
             plug.ageData.set(uuid + ".username", name);
             plug.ageData.set(uuid + ".age", 0);
             plug.ageData.set(uuid + ".exp", 0);
             plug.saveData();
-            plug.log(G.translateColor(G.success + "Initialization OK"));
+            plug.log(G.translateColor(G.SUCCESS + "Initialization OK"));
         } else {
             if (plug.ageData.getString(uuid + ".username") != p.getName()) {
                 plug.ageData.set(uuid + ".username", p.getName());
@@ -57,7 +58,8 @@ public class Events implements Listener {
             }
     
             if (currentAge < finalAgeLimit) {
-                p.sendMessage(G.translateColor(G.warn + "You are not old enough to execute the command."));
+                p.sendMessage(G.translateColor(G.WARN
+                        + "You are not old enough to execute the command."));
                 e.setCancelled(true);
             }
         }

@@ -6,11 +6,11 @@ import java.util.regex.Pattern;
 
 import org.bukkit.ChatColor;
 
-public class G {
-    public static String success = "&r[&aSUCCESS&r] ";
-    public static String warn = "&r[&eWARN&r] ";
-    public static String failed = "&r[&cFAILED&r] ";
-    public static String info = "&r[&bINFO&r] ";
+public final class G {
+    public final static String SUCCESS = "&r[&aSUCCESS&r] ";
+    public final static String WARN = "&r[&eWARN&r] ";
+    public final static String FAILED = "&r[&cFAILED&r] ";
+    public final static String INFO = "&r[&bINFO&r] ";
 
     public static String translateColor(String message) {
         return ChatColor.translateAlternateColorCodes('&', message);
