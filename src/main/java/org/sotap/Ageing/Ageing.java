@@ -11,6 +11,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class Ageing extends JavaPlugin {
     public FileConfiguration ageData;
     public DataController controller;
+    public API api;
 
     @Override
     public void onEnable() {
@@ -20,6 +21,7 @@ public final class Ageing extends JavaPlugin {
         getLogger().info(G.translateColor(G.SUCCESS + "The plugin has been &aenabled&r."));
         Bukkit.getPluginCommand("age").setExecutor(new CommandHandler(this));
         getServer().getPluginManager().registerEvents(new Events(this), this);
+        api = new API(this);
     }
 
     @Override
