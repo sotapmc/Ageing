@@ -1,0 +1,25 @@
+# 达到一定年龄后所要执行的命令
+age_commands:
+  "1":
+    - "give %username% diamond 10"
+  "2":
+    - "give %username% diamond 20"
+  "20":
+    - "give %username% diamond 50"
+    - "give %username% diamond 1000"
+# 用户可以达到的最大年龄数值
+max_age: 100
+# 受到年龄限制的指令
+limited_commands:
+  example: 0
+# 使用指令的最低年龄
+command_lowest_limit: 0
+# 不受年龄限制的指令
+ignored_commands:
+  - "example"
+# 年龄增长所需经验值的基础值
+growth_base_value: 200
+# 年龄增长所需经验值得叠加值
+growth_step_value: 150
+# 年龄增长的基本区间长度
+growth_range_length: 5

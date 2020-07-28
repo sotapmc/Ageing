@@ -1,9 +1,5 @@
-.classpath
-.project
-.settings
-build
+# Ignore Gradle project-specific cache directory
 .gradle
-*.class
-.vscode
-bin
-*.class
+
+# Ignore Gradle build output directory
+build

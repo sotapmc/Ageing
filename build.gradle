@@ -1,23 +1,25 @@
 plugins {
-    id 'java-library'
-    id 'maven-publish'
+    id 'java'
 }
 
 group 'org.sotap'
 version '1.0-SNAPSHOT'
-ext.minecraftVersion = "1.16.1"
+ext.minecraftVersion = '1.16.1'
 
-sourceCompatibility = 1.8
+sourceCompatibility = 11
 
 repositories {
     jcenter()
     maven { name 'Spigot';      url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
     maven { name 'Sonatype';    url 'https://oss.sonatype.org/content/groups/public' }
+    maven { url 'https://www.jitpack.io' }
 }
 
 dependencies {
     compileOnly "org.spigotmc:spigot-api:$minecraftVersion-R0.1-SNAPSHOT"
-    testCompile 'junit:junit:4.12'
+    testCompile 'junit:junit:4.13'
+    compileOnly 'net.sf.jopt-simple:jopt-simple:6.0-alpha-3'
+    compile 'com.github.neko-craft:NekoCommander:-SNAPSHOT'
 }
 
 sourceSets {
