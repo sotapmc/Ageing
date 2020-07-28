@@ -65,17 +65,6 @@ public class DataController {
         return baseValue > 0 && stepValue > 0 && rangeLength > 0 && newValue >= 0;
     }
 
-    // 获取该年龄所在区间的最小值
-    private Integer floorAge(FileConfiguration config, Integer age) {
-        return age - (age % config.getInt("growth_range_length"));
-    }
-
-    // 获取该年龄所在区间的最大值
-    private Integer ceilAge(FileConfiguration config, Integer age) {
-        Integer rangeLength = config.getInt("growth_range_length");
-        return age - (age % rangeLength) + rangeLength - 1;
-    }
-
     // 获取达到该年龄后可获得的奖励
     // 该函数只能在自然成长过程中生效，因为它只会判断当前年龄是否有存在的奖励设定
     private List<String> getAgeAwardsAt(FileConfiguration config, Integer age) {
