@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public final class CommandHandler implements CommandExecutor {
-    public final Ageing plug;
+    public Ageing plug;
 
     public CommandHandler(Ageing plug) {
         this.plug = plug;

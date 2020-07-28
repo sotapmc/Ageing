@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 
 public final class Events implements Listener {
-    public final Ageing plug;
+    public Ageing plug;
 
     public Events(Ageing plug) {
         this.plug = plug;
