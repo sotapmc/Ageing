@@ -17,6 +17,8 @@ repositories {
 dependencies {
     compileOnly "org.spigotmc:spigot-api:$minecraftVersion-R0.1-SNAPSHOT"
     testCompile 'junit:junit:4.13'
+    // https://mvnrepository.com/artifact/javax.validation/validation-api
+    compile group: 'javax.validation', name: 'validation-api', version: '1.0.0.GA'
 }
 
 sourceSets {
