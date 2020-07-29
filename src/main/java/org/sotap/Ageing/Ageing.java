@@ -23,7 +23,10 @@ public final class Ageing extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new Events(this), this);
         api = new API(this);
         if ( Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null ) {
-            new Placeholder(this).register();
+            @SuppressWarnings({"unused", "deprecation"})
+            boolean papiStatus = new Placeholder(this).register();
+        } else {
+            log(G.INFO + "Ageing now supports &ePlaceholderAPI &rbut it seems not installed on your server!");
         }
     }
 
