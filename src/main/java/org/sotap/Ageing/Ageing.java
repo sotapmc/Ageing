@@ -22,6 +22,9 @@ public final class Ageing extends JavaPlugin {
         Bukkit.getPluginCommand("age").setExecutor(new CommandHandler(this));
         getServer().getPluginManager().registerEvents(new Events(this), this);
         api = new API(this);
+        if ( Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null ) {
+            new Placeholder(this).register();
+        }
     }
 
     @Override
