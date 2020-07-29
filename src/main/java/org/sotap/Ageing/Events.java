@@ -24,7 +24,7 @@ public final class Events implements Listener {
         if (!p.hasPlayedBefore() || !plug.ageData.contains(uuid)) {
             plug.log(G.translateColor(G.INFO + "Detected a new player &a" + playername
                     + "&r, initializing data..."));
-            plug.ageData.set(uuid + ".username", playername);
+            plug.ageData.set(uuid + ".playername", playername);
             plug.ageData.set(uuid + ".age", 0);
             plug.ageData.set(uuid + ".exp", 0);
             plug.saveData();
@@ -38,8 +38,8 @@ public final class Events implements Listener {
                 }
              }
         } else {
-            if (plug.ageData.getString(uuid + ".username") != playername) {
-                plug.ageData.set(uuid + ".username", playername);
+            if (plug.ageData.getString(uuid + ".playername") != playername) {
+                plug.ageData.set(uuid + ".playername", playername);
             }
         }
     }
