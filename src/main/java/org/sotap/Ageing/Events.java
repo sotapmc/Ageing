@@ -22,21 +22,20 @@ public final class Events implements Listener {
         String uuid = p.getUniqueId().toString();
         String playername = p.getName();
         if (!p.hasPlayedBefore() || !plug.ageData.contains(uuid)) {
-            plug.log(G.translateColor(G.INFO + "Detected a new player &a" + playername
-                    + "&r, initializing data..."));
+            plug.log(G.translateColor(
+                    G.INFO + "Detected a new player &a" + playername + "&r, initializing data..."));
             plug.ageData.set(uuid + ".playername", playername);
             plug.ageData.set(uuid + ".age", 0);
             plug.ageData.set(uuid + ".exp", 0);
             plug.saveData();
             plug.log(G.translateColor(G.SUCCESS + "Initialization OK"));
             FileConfiguration config = plug.getConfig();
-            ConfigurationSection awards = config.getConfigurationSection("age_commands");
-            if (awards.contains("0")) {
-                List<String> firstJoinAward = awards.getStringList("0");
+            List<String> firstJoinAward = plug.controller.getAgeAwardsAt(config, 0);
+            if (firstJoinAward != null) {
                 for (String award : firstJoinAward) {
                     G.dispatchCommand(award, playername, uuid);
                 }
-             }
+            }
         } else {
             if (plug.ageData.getString(uuid + ".playername") != playername) {
                 plug.ageData.set(uuid + ".playername", playername);
@@ -60,14 +59,15 @@ public final class Events implements Listener {
 
         if (!ignoredCommands.contains(commandLabel)) {
             if (limitedCommands.contains(commandLabel)) {
-                finalAgeLimit = limitedCommands.getInt(commandLabel) < lowestLimit ? lowestLimit : limitedCommands.getInt(commandLabel);
+                finalAgeLimit = limitedCommands.getInt(commandLabel) < lowestLimit ? lowestLimit
+                        : limitedCommands.getInt(commandLabel);
             } else {
                 finalAgeLimit = lowestLimit;
             }
-    
+
             if (currentAge < finalAgeLimit) {
-                p.sendMessage(G.translateColor(G.WARN
-                        + "You are not old enough to execute the command."));
+                p.sendMessage(G
+                        .translateColor(G.WARN + "You are not old enough to execute the command."));
                 e.setCancelled(true);
             }
         }
