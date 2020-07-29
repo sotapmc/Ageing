@@ -132,8 +132,10 @@ public class DataController {
         plug.ageData.set(uuid + ".exp", newExperience);
         if (newAge > oldAge) {
             List<String> award = getAgeAwardsAt(config, newAge);
-            for (String cmd : award) {
-                G.dispatchCommand(cmd, playername, uuid);
+            if (award != null) {
+                for (String cmd : award) {
+                    G.dispatchCommand(cmd, playername, uuid);
+                }
             }
         }
         plug.saveData();
