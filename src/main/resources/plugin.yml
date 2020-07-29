@@ -1,9 +1,10 @@
 name: Ageing
 main: org.sotap.Ageing.Ageing
-version: "1"
-api: "1.16"
+version: "1.0"
 author: sotapmc
 api-version: "1.16"
+softdepend:
+  - PlaceholderAPI
 
 commands:
   age:

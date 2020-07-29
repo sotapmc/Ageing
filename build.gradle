@@ -5,6 +5,7 @@ plugins {
 group 'org.sotap'
 version '1.0-SNAPSHOT'
 ext.minecraftVersion = '1.16.1'
+ext.papiVersion = '2.10.7'
 
 sourceCompatibility = 11
 
@@ -12,10 +13,12 @@ repositories {
     jcenter()
     maven { name 'Spigot';      url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
     maven { name 'Sonatype';    url 'https://oss.sonatype.org/content/groups/public' }
+    maven { url 'https://repo.extendedclip.com/content/repositories/placeholderapi/' }
 }
 
 dependencies {
     compileOnly "org.spigotmc:spigot-api:$minecraftVersion-R0.1-SNAPSHOT"
+    compileOnly "me.clip:PlaceholderAPI:$papiVersion"
     testCompile 'junit:junit:4.13'
     // https://mvnrepository.com/artifact/javax.validation/validation-api
     compile group: 'javax.validation', name: 'validation-api', version: '1.0.0.GA'
