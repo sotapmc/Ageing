@@ -20,18 +20,26 @@ public final class Events implements Listener {
     public void onPlayerJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
         String uuid = p.getUniqueId().toString();
+        String playername = p.getName();
         if (!p.hasPlayedBefore() || !plug.ageData.contains(uuid)) {
-            String name = p.getName();
-            plug.log(G.translateColor(G.INFO + "Detected a new player &a" + name
+            plug.log(G.translateColor(G.INFO + "Detected a new player &a" + playername
                     + "&r, initializing data..."));
-            plug.ageData.set(uuid + ".username", name);
+            plug.ageData.set(uuid + ".username", playername);
             plug.ageData.set(uuid + ".age", 0);
             plug.ageData.set(uuid + ".exp", 0);
             plug.saveData();
             plug.log(G.translateColor(G.SUCCESS + "Initialization OK"));
+            FileConfiguration config = plug.getConfig();
+            ConfigurationSection awards = config.getConfigurationSection("age_commands");
+            if (awards.contains("0")) {
+                List<String> firstJoinAward = awards.getStringList("0");
+                for (String award : firstJoinAward) {
+                    G.dispatchCommand(award, playername, uuid);
+                }
+             }
         } else {
-            if (plug.ageData.getString(uuid + ".username") != p.getName()) {
-                plug.ageData.set(uuid + ".username", p.getName());
+            if (plug.ageData.getString(uuid + ".username") != playername) {
+                plug.ageData.set(uuid + ".username", playername);
             }
         }
     }
