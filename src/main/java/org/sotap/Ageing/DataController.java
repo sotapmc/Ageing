@@ -2,7 +2,6 @@ package org.sotap.Ageing;
 
 import java.util.List;
 import org.bukkit.Bukkit;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 
