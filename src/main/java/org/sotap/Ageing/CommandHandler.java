@@ -204,7 +204,7 @@ public final class CommandHandler implements CommandExecutor {
                         plug.reloadConfig();
                         plug.reloadData();
                         sender.sendMessage(G.translateColor(
-                                G.SUCCESS + "Successfully reload the plugin configuration"));
+                                G.SUCCESS + "Successfully reloaded the plugin configuration and age data"));
                         break;
                     }
                 }
