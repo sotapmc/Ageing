@@ -81,7 +81,7 @@ public final class CommandHandler implements CommandExecutor {
                     }
 
                     case "add": {
-                        if (args.length != 2 || args.length != 3) {
+                        if (args.length != 2 && args.length != 3) {
                             sender.sendMessage(
                                     G.translateColor(G.FAILED + "Invalid argument list length"));
                             return true;
@@ -109,7 +109,7 @@ public final class CommandHandler implements CommandExecutor {
                     }
 
                     case "sub": {
-                        if (args.length != 2 || args.length != 3) {
+                        if (args.length != 2 && args.length != 3) {
                             sender.sendMessage(
                                     G.translateColor(G.FAILED + "Invalid argument list length"));
                             return true;
