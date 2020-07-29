@@ -133,10 +133,8 @@ public class DataController {
         plug.ageData.set(uuid + ".exp", newExperience);
         if (newAge > oldAge) {
             List<String> award = getAgeAwardsAt(config, newAge);
-            ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
             for (String cmd : award) {
-                Bukkit.dispatchCommand(console,
-                        cmd.replace("%username%", playername).replace("%uuid%", uuid));
+                G.dispatchCommand(cmd, playername, uuid);
             }
         }
         plug.saveData();
