@@ -48,6 +48,14 @@ public class Placeholder extends PlaceholderExpansion {
             return plug.ageData.getString(player.getUniqueId().toString() + ".exp");
         }
 
+        if (identifier.equals("experience_to_next")) {
+            Integer nextExperience = plug.controller.getGrowthCostTo(plug.getConfig(),
+                    plug.ageData.getInt(player.getUniqueId().toString() + ".age") + 1);
+            Integer delta =
+                    nextExperience - plug.ageData.getInt(player.getUniqueId().toString() + ".exp");
+            return delta.toString();
+        }
+
         return null;
     }
 }

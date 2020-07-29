@@ -29,7 +29,7 @@ public class DataController {
     }
 
     // 获取长至指定年龄所需要的总经验数
-    private Integer getGrowthCostTo(FileConfiguration config, Integer age) {
+    public Integer getGrowthCostTo(FileConfiguration config, Integer age) {
         Integer rangeLength = config.getInt("growth_range_length");
         Integer rangeAt = getAgeRangeAt(config, age);
         Integer result = 0;
