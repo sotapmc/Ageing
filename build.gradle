@@ -19,9 +19,9 @@ repositories {
 dependencies {
     compileOnly "org.spigotmc:spigot-api:$minecraftVersion-R0.1-SNAPSHOT"
     compileOnly "me.clip:PlaceholderAPI:$papiVersion"
-    testCompile 'junit:junit:4.13'
+    testImplementation 'junit:junit:4.13'
     // https://mvnrepository.com/artifact/javax.validation/validation-api
-    compile group: 'javax.validation', name: 'validation-api', version: '1.0.0.GA'
+    implementation group: 'javax.validation', name: 'validation-api', version: '1.0.0.GA'
 }
 
 sourceSets {
@@ -30,4 +30,8 @@ sourceSets {
             srcDirs "src/main/java/resources"
         }
     }
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
 }
