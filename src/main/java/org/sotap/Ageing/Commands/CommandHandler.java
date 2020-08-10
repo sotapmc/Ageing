@@ -18,12 +18,12 @@ public final class CommandHandler implements CommandExecutor {
     }
 
     public static void noPermission(Player p) {
-        LogUtil.failed("你没有执行该指令的权限。");
+        LogUtil.warn("你没有执行该指令的权限。", p);
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (cmd.getName().equalsIgnoreCase("age")) {
+        if (cmd.getName().equalsIgnoreCase("ageing")) {
             if (args.length > 0) {
                 String arg = args[0];
                 String playername = null;
