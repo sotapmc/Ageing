@@ -7,27 +7,41 @@ softdepend:
   - PlaceholderAPI
 
 commands:
-  age:
+  ageing:
+    aliases: ["age"]
     description: Controls the Ageing plugin.
     permission: ageing.command
     permission-message: "You do not have the permission to use the command."
     usage: /age <options>
 permissions:
-  ageing.*:
+  ageing.all:
     description: The super permission node for Ageing.
     default: op
     children:
       ageing.set: true
       ageing.get: true 
-      ageing.admin: true
-  ageing.admin:
-    description: The permission node for administrator which provides full control on the plugin.
-    default: op
-  ageing.user:
-    description: The permission node for players which only provides a few functions.
+      ageing.add: true
+      ageing.sub: true
+      ageing.setexp: true
+      ageing.addexp: true
+      ageing.subexp: true
+      ageing.getexp: true
+      ageing.reload: true
   ageing.set:
-    description: Directly set a player's age.
     default: op
   ageing.get:
-    description: Get a player's age information.
+    default: op
+  ageing.add:
+    default: op
+  ageing.sub:
+    default: op
+  ageing.setexp:
+    default: op
+  ageing.addexp:
+    default: op
+  ageing.subexp:
+    default: op
+  ageing.getexp:
+    default: op
+  ageing.reload:
     default: op
