@@ -1,29 +1,14 @@
 package org.sotap.Ageing.Utils;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.sotap.Ageing.Ageing;
 
-public final class G {
-    public final static String SUCCESS = "&r[&aSUCCESS&r] ";
-    public final static String WARN = "&r[&eWARN&r] ";
-    public final static String FAILED = "&r[&cFAILED&r] ";
-    public final static String INFO = "&r[&bINFO&r] ";
-
-    /**
-     * 调用 ChatColor 对 '&' 进行转义
-     * 
-     * @param message 要转义的字符串
-     * @return 转义后的字符串
-     */
-    public static String translateColor(String message) {
-        return ChatColor.translateAlternateColorCodes('&', message);
-    }
-
+public final class Functions {
     /**
      * 判断一个字符串是否为数字
      * 
@@ -58,7 +43,7 @@ public final class G {
      * @return boolean
      */
     public static boolean isStringIntegerNatural(String str) {
-        if (G.isStringInteger(str)) {
+        if (Functions.isStringInteger(str)) {
             return Integer.parseInt(str) >= 0;
         }
         return false;
@@ -71,7 +56,7 @@ public final class G {
      * @return boolean
      */
     public static boolean isStringIntegerPositive(String str) {
-        if (G.isStringIntegerNatural(str)) {
+        if (Functions.isStringIntegerNatural(str)) {
             return Integer.parseInt(str) > 0;
         }
         return false;
@@ -89,8 +74,10 @@ public final class G {
                 .getConfigurationSection(Bukkit.getPlayer(playername).getUniqueId().toString());
     }
 
-    public static void dispatchCommand(String command, String playername, String uuid) {
-        Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(),
+    public static void dispatchCommands(List<String> commands, String playername, String uuid) {
+        for (String command : commands) {
+            Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(),
                 command.replace("%playername%", playername).replace("%uuid%", uuid));
+        }
     }
 }
