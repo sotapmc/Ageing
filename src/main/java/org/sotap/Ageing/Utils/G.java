@@ -1,4 +1,4 @@
-package org.sotap.Ageing;
+package org.sotap.Ageing.Utils;
 
 import java.math.BigDecimal;
 import java.util.regex.Matcher;
@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
+import org.sotap.Ageing.Ageing;
 
 public final class G {
     public final static String SUCCESS = "&r[&aSUCCESS&r] ";

@@ -1,9 +1,10 @@
-package org.sotap.Ageing;
+package org.sotap.Ageing.Utils;
 
 import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.sotap.Ageing.Ageing;
 
 public class DataController {
     public Ageing plug;

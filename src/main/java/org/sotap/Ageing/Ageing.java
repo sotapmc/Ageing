@@ -9,6 +9,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.sotap.Ageing.Commands.CommandHandler;
 import org.sotap.Ageing.Commands.Tab;
+import org.sotap.Ageing.Utils.DataController;
+import org.sotap.Ageing.Utils.G;
 
 public final class Ageing extends JavaPlugin {
     public FileConfiguration ageData;

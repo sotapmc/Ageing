@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.sotap.Ageing.Ageing;
-import org.sotap.Ageing.G;
+import org.sotap.Ageing.Utils.G;
 
 public final class CommandHandler implements CommandExecutor {
     public Ageing plug;
