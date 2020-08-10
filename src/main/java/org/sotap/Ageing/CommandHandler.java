@@ -5,12 +5,17 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 
 public final class CommandHandler implements CommandExecutor {
     public Ageing plug;
 
     public CommandHandler(Ageing plug) {
         this.plug = plug;
+    }
+
+    public static void noPermission(Player p) {
+        p.sendMessage(G.translateColor(G.FAILED + "你没有执行该指令的权限。"));
     }
 
     @Override
@@ -20,6 +25,13 @@ public final class CommandHandler implements CommandExecutor {
                 String arg = args[0];
                 String playername = null;
                 String playerUUID = null;
+                Player p = (Player) sender;
+
+                if (!p.hasPermission("ageing." + arg)) {
+                    noPermission(p);
+                    return true;
+                }
+                
                 if (args.length > 1) {
                     playername = args[1];
                     try {
@@ -203,8 +215,8 @@ public final class CommandHandler implements CommandExecutor {
                     case "reload": {
                         plug.reloadConfig();
                         plug.reloadData();
-                        sender.sendMessage(G.translateColor(
-                                G.SUCCESS + "Successfully reloaded the plugin configuration and age data"));
+                        sender.sendMessage(G.translateColor(G.SUCCESS
+                                + "Successfully reloaded the plugin configuration and age data"));
                         break;
                     }
                 }
