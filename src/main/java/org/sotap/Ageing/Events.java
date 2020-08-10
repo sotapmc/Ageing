@@ -3,7 +3,8 @@ package org.sotap.Ageing;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.sotap.Ageing.Utils.G;
+import org.sotap.Ageing.Utils.Functions;
+import org.sotap.Ageing.Utils.LogUtil;
 import java.util.List;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -23,19 +24,16 @@ public final class Events implements Listener {
         String uuid = p.getUniqueId().toString();
         String playername = p.getName();
         if (!p.hasPlayedBefore() || !plug.ageData.contains(uuid)) {
-            plug.log(G.translateColor(
-                    G.INFO + "Detected a new player &a" + playername + "&r, initializing data..."));
+            LogUtil.info("Detected a new player &a" + playername + "&r, initializing data...");
             plug.ageData.set(uuid + ".playername", playername);
             plug.ageData.set(uuid + ".age", 0);
             plug.ageData.set(uuid + ".exp", 0);
             plug.saveData();
-            plug.log(G.translateColor(G.SUCCESS + "Initialization OK"));
+            LogUtil.success("Initialization OK");
             FileConfiguration config = plug.getConfig();
             List<String> firstJoinAward = plug.controller.getAgeAwardsAt(config, 0);
             if (firstJoinAward != null) {
-                for (String award : firstJoinAward) {
-                    G.dispatchCommand(award, playername, uuid);
-                }
+                Functions.dispatchCommands(firstJoinAward, playername, uuid);
             }
         } else {
             if (plug.ageData.getString(uuid + ".playername") != playername) {
@@ -67,8 +65,7 @@ public final class Events implements Listener {
             }
 
             if (currentAge < finalAgeLimit) {
-                p.sendMessage(G
-                        .translateColor(G.WARN + "You are not old enough to execute the command."));
+                LogUtil.warn("You are not old enough to execute the command.", p);
                 e.setCancelled(true);
             }
         }

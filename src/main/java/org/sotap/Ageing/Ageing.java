@@ -10,7 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.sotap.Ageing.Commands.CommandHandler;
 import org.sotap.Ageing.Commands.Tab;
 import org.sotap.Ageing.Utils.DataController;
-import org.sotap.Ageing.Utils.G;
+import org.sotap.Ageing.Utils.LogUtil;
 
 public final class Ageing extends JavaPlugin {
     public FileConfiguration ageData;
@@ -21,8 +21,9 @@ public final class Ageing extends JavaPlugin {
     public void onEnable() {
         saveDefaultConfig();
         ageData = load("age.yml");
+        LogUtil.origin = this.getLogger();
         controller = new DataController(this);
-        getLogger().info(G.translateColor(G.SUCCESS + "The plugin has been &aenabled&r."));
+        LogUtil.success("The plugin has been &aenabled&r.");
         Bukkit.getPluginCommand("ageing").setExecutor(new CommandHandler(this));
         Bukkit.getPluginCommand("ageing").setTabCompleter(new Tab());
         getServer().getPluginManager().registerEvents(new Events(this), this);
@@ -31,14 +32,13 @@ public final class Ageing extends JavaPlugin {
             @SuppressWarnings({"unused", "deprecation"})
             boolean papiStatus = new Placeholder(this).register();
         } else {
-            log(G.INFO
-                    + "Ageing now supports &ePlaceholderAPI &rbut it seems not installed on your server!");
+            LogUtil.info("Ageing now supports &ePlaceholderAPI &rbut it seems not installed on your server!");
         }
     }
 
     @Override
     public void onDisable() {
-        getLogger().info(G.translateColor(G.SUCCESS + "The plugin has been &cdisabled&r."));
+        LogUtil.success("The plugin has been &cdisabled&r.");
     }
 
     public FileConfiguration load(String filename) {

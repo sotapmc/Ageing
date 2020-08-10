@@ -134,9 +134,7 @@ public class DataController {
         if (newAge > oldAge) {
             List<String> award = getAgeAwardsAt(config, newAge);
             if (award != null) {
-                for (String cmd : award) {
-                    G.dispatchCommand(cmd, playername, uuid);
-                }
+                Functions.dispatchCommands(award, playername, uuid);
             }
         }
         plug.saveData();
