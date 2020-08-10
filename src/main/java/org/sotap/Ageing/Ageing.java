@@ -7,6 +7,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.sotap.Ageing.Commands.CommandHandler;
+import org.sotap.Ageing.Commands.Tab;
 
 public final class Ageing extends JavaPlugin {
     public FileConfiguration ageData;
@@ -19,14 +21,16 @@ public final class Ageing extends JavaPlugin {
         ageData = load("age.yml");
         controller = new DataController(this);
         getLogger().info(G.translateColor(G.SUCCESS + "The plugin has been &aenabled&r."));
-        Bukkit.getPluginCommand("age").setExecutor(new CommandHandler(this));
+        Bukkit.getPluginCommand("ageing").setExecutor(new CommandHandler(this));
+        Bukkit.getPluginCommand("ageing").setTabCompleter(new Tab());
         getServer().getPluginManager().registerEvents(new Events(this), this);
         api = new API(this);
-        if ( Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null ) {
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             @SuppressWarnings({"unused", "deprecation"})
             boolean papiStatus = new Placeholder(this).register();
         } else {
-            log(G.INFO + "Ageing now supports &ePlaceholderAPI &rbut it seems not installed on your server!");
+            log(G.INFO
+                    + "Ageing now supports &ePlaceholderAPI &rbut it seems not installed on your server!");
         }
     }
 
