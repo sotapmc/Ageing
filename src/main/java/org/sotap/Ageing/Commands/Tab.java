@@ -28,8 +28,12 @@ public final class Tab implements TabCompleter {
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] arguments) {
         List<String> result = new ArrayList<>();
         if (command.getName().equalsIgnoreCase("ageing")) {
-            result = StringUtil.copyPartialMatches(arguments[0], getAvailableCommands((Player) sender), result);
-            Collections.sort(result);
+            if (arguments.length == 1) {
+                result = StringUtil.copyPartialMatches(arguments[0], getAvailableCommands((Player) sender), result);
+                Collections.sort(result);
+            } else {
+                result = null;
+            }
         }
         return result;
     }
