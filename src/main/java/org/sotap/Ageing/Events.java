@@ -24,12 +24,12 @@ public final class Events implements Listener {
         String uuid = p.getUniqueId().toString();
         String playername = p.getName();
         if (!p.hasPlayedBefore() || !plug.ageData.contains(uuid)) {
-            LogUtil.info("Detected a new player &a" + playername + "&r, initializing data...");
+            LogUtil.info("检测到新玩家 &a" + playername + "&r，正在初始化数据...");
             plug.ageData.set(uuid + ".playername", playername);
             plug.ageData.set(uuid + ".age", 0);
             plug.ageData.set(uuid + ".exp", 0);
             plug.saveData();
-            LogUtil.success("Initialization OK");
+            LogUtil.success("初始化完成。");
             FileConfiguration config = plug.getConfig();
             List<String> firstJoinAward = plug.controller.getAgeAwardsAt(config, 0);
             if (firstJoinAward != null) {
@@ -65,7 +65,7 @@ public final class Events implements Listener {
             }
 
             if (currentAge < finalAgeLimit) {
-                LogUtil.warn("You are not old enough to execute the command.", p);
+                LogUtil.warn("你的年龄太小，不能执行这个指令。", p);
                 e.setCancelled(true);
             }
         }

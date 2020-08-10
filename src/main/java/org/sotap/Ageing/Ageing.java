@@ -23,7 +23,7 @@ public final class Ageing extends JavaPlugin {
         ageData = load("age.yml");
         LogUtil.origin = this.getLogger();
         controller = new DataController(this);
-        LogUtil.success("The plugin has been &aenabled&r.");
+        LogUtil.success("插件已&a启用&r。");
         Bukkit.getPluginCommand("ageing").setExecutor(new CommandHandler(this));
         Bukkit.getPluginCommand("ageing").setTabCompleter(new Tab());
         getServer().getPluginManager().registerEvents(new Events(this), this);
@@ -32,13 +32,13 @@ public final class Ageing extends JavaPlugin {
             @SuppressWarnings({"unused", "deprecation"})
             boolean papiStatus = new Placeholder(this).register();
         } else {
-            LogUtil.info("Ageing now supports &ePlaceholderAPI &rbut it seems not installed on your server!");
+            LogUtil.info("Ageing 支持 &bPlaceholderAPI&r，但并未找到。");
         }
     }
 
     @Override
     public void onDisable() {
-        LogUtil.success("The plugin has been &cdisabled&r.");
+        LogUtil.success("插件已&c禁用&r。");
     }
 
     public FileConfiguration load(String filename) {

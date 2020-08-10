@@ -40,12 +40,12 @@ public final class CommandHandler implements CommandExecutor {
                     try {
                         playerUUID = Bukkit.getPlayer(playername).getUniqueId().toString();
                     } catch (NullPointerException npe) {
-                        LogUtil.failed("The player isn't &conline&r or does &cnot exist&r.", p);
+                        LogUtil.failed("指定的玩家&c不在线&r或者&c不存在&r。", p);
                         return true;
                     }
 
                     if (!plug.ageData.contains(playerUUID)) {
-                        LogUtil.failed("There is no data for &c" + playername + "&r.", p);
+                        LogUtil.failed("找不到 &c" + playername + "&r 的数据。", p);
                         return true;
                     }
                 }
@@ -54,7 +54,7 @@ public final class CommandHandler implements CommandExecutor {
 
                 if (args.length == 3) {
                     if (!Functions.isStringIntegerNatural(args[2])) {
-                        LogUtil.failed("&cNatural integer &rrequired.", p);
+                        LogUtil.failed("参数必须为&c自然数&r。", p);
                         return true;
                     }
                 }
@@ -62,36 +62,36 @@ public final class CommandHandler implements CommandExecutor {
                 switch (arg) {
                     case "set": {
                         if (args.length != 3) {
-                            LogUtil.failed("Invalid argument list length.", p);
+                            LogUtil.failed("无效参数。", p);
                             return true;
                         }
                         Integer newAge = Integer.parseInt(args[2]);
                         if (newAge > config.getInt("max_age")) {
-                            LogUtil.failed("The age must be &csmaller&r than the maximum value (&e"
-                                    + config.getInt("max_age") + "&r) defined in the config.", p);
+                            LogUtil.failed("目标年龄必须&c小于&r最高年龄 (&e"
+                                    + config.getInt("max_age") + "&r)。", p);
                             return true;
                         }
                         plug.controller.updateAge(playername, newAge);
                         plug.saveData();
-                        LogUtil.success("Successfully set &a" + playername + "&r's age to &a"
+                        LogUtil.success("成功将 &a" + playername + "&r 的年龄设置为了 &a"
                                 + args[2] + "&r.", p);
                         break;
                     }
 
                     case "get": {
                         if (args.length != 2) {
-                            LogUtil.failed("Invalid argument list length", p);
+                            LogUtil.failed("无效参数。", p);
                             return true;
                         }
                         Integer age = plug.ageData.getInt(playerUUID + ".age");
-                        LogUtil.info("The age of &a" + playername + "&r is &a"
-                                + Integer.toString(age) + "&r.", p);
+                        LogUtil.info("&a" + playername + "&r 的年龄为 &a"
+                                + Integer.toString(age) + "&r。", p);
                         break;
                     }
 
                     case "add": {
                         if (args.length != 2 && args.length != 3) {
-                            LogUtil.failed("Invalid argument list length", p);
+                            LogUtil.failed("无效参数。", p);
                             return true;
                         }
                         Integer maxAge = config.getInt("max_age");
@@ -99,110 +99,110 @@ public final class CommandHandler implements CommandExecutor {
                         Integer addend = args.length == 2 ? 1 : Integer.parseInt(args[2]);
                         Integer result = oldAge + addend;
                         if (maxAge == oldAge) {
-                            LogUtil.failed("The age is already &cat maximum&r!", p);
+                            LogUtil.failed("该玩家的年龄已经是&c最大值&r。", p);
                             return true;
                         }
                         if (result > maxAge) {
                             LogUtil.failed(
-                                    "Invalid addend. (Must be &cequal&r to or &csmaller &rthan &e"
-                                            + (maxAge - oldAge) + "&r)",
+                                    "无效的加数，必须&c小于或等于&r &e"
+                                            + (maxAge - oldAge) + "&r。",
                                     p);
                             return true;
                         }
                         plug.controller.updateAge(playername, result);
                         plug.saveData();
-                        LogUtil.success("Successfully set &a" + playername + "&r's age to &a"
-                                + result + "&r.", p);
+                        LogUtil.success("成功将 &a" + playername + "&r 的年龄设置为了 &a"
+                                + result + "&r。", p);
                         break;
                     }
 
                     case "sub": {
                         if (args.length != 2 && args.length != 3) {
-                            LogUtil.failed("Invalid argument list length");
+                            LogUtil.failed("无效参数。");
                             return true;
                         }
                         Integer oldAge = plug.ageData.getInt(playerUUID + ".age");
                         Integer subtrahend = args.length == 2 ? 1 : Integer.parseInt(args[2]);
                         Integer result = oldAge - subtrahend;
                         if (oldAge == 0) {
-                            LogUtil.failed("The age is &e0&r which doesn't need to be subtracted.",
+                            LogUtil.failed("该玩家的年龄为 &e0&r，不可再减。",
                                     p);
                             return true;
                         }
                         if (result < 0) {
                             LogUtil.failed(
-                                    "The subtrahend must be &csmaller &rthan &e" + oldAge + "&r.",
+                                    "减数必须&c小于 &e" + oldAge + "&r。",
                                     p);
                             return true;
                         }
                         plug.controller.updateAge(playername, result);
                         plug.saveData();
-                        LogUtil.success("Successfully set &a" + playername + "&r's age to &a"
-                                + result + "&r.", p);
+                        LogUtil.success("成功将 &a" + playername + "&r 的年龄设置为了 &a"
+                        + result + "&r。", p);
                         break;
                     }
 
                     case "setexp": {
                         if (args.length != 3) {
-                            LogUtil.failed("Invalid argument list length", p);
+                            LogUtil.failed("无效参数。", p);
                             return true;
                         }
                         Integer newExp = Integer.parseInt(args[2]);
                         if (!plug.controller.updateExperience(playername, newExp)) {
                             LogUtil.failed(
-                                    "An &cfatal error&r occurred, please check the &econsole&r.",
+                                    "发生严重错误，请检查该玩家是否在线，提供的数值是否正确。",
                                     p);
                             return true;
                         }
-                        LogUtil.success("Successfully set &a" + playername + "&r's exp to &a"
-                                + args[2] + "&r.", p);
+                        LogUtil.success("成功将 &a" + playername + "&r 的经验值设为了 &a"
+                                + args[2] + "&r。", p);
                         break;
                     }
 
                     case "addexp": {
                         if (args.length != 3) {
-                            LogUtil.failed("Invalid argument list length", p);
+                            LogUtil.failed("无效参数。", p);
                             return true;
                         }
                         Integer oldExp = plug.ageData.getInt(playerUUID + ".exp");
                         Integer newExp = oldExp + Integer.parseInt(args[2]);
                         if (!plug.controller.updateExperience(playername, newExp)) {
                             LogUtil.failed(
-                                    "An &cfatal error&r occurred, please check if the player is &conline&r and the input is &ccalculatable&r.",
+                                    "发生严重错误，请检查该玩家是否在线，提供的数值是否正确。",
                                     p);
                             return true;
                         }
-                        LogUtil.success("Successfully give &a" + args[2] + " exp &rto &a"
-                                + playername + "&r.", p);
+                        LogUtil.success("成功将 &a" + args[2] + " 经验值&r给予了 &a"
+                                + playername + "&r。", p);
                         break;
                     }
 
                     case "subexp": {
                         if (args.length != 3) {
-                            LogUtil.failed("Invalid argument list length", p);
+                            LogUtil.failed("无效参数。", p);
                             return true;
                         }
                         Integer oldExp = plug.ageData.getInt(playerUUID + ".exp");
                         Integer newExp = oldExp - Integer.parseInt(args[2]);
                         if (!plug.controller.updateExperience(playername, newExp)) {
                             LogUtil.failed(
-                                    "An &cfatal error&r occurred, please check if the player is &conline&r and the input is &ccalculatable&r.",
+                                    "发生严重错误，请检查该玩家是否在线，提供的数值是否正确。",
                                     p);
                             return true;
                         }
-                        LogUtil.success("Successfully take &a" + args[2] + " exp &rfrom &a"
-                                + playername + "&r.", p);
+                        LogUtil.success("成功从 &a" + playername + " &r的数据中取走了 &a"
+                                + args[2] + " 经验值&r。", p);
                         break;
                     }
 
                     case "getexp": {
                         if (args.length != 2) {
-                            LogUtil.failed("Invalid argument list length", p);
+                            LogUtil.failed("无效参数。", p);
                             return true;
                         }
                         Integer exp = plug.ageData.getInt(playerUUID + ".exp");
-                        LogUtil.info("The experience value of &a" + playername + "&r is &a"
-                                + exp.toString() + "&r.", p);
+                        LogUtil.info("&a" + playername + "&r 的经验值为 &a"
+                                + exp.toString() + "&r。", p);
                         break;
                     }
 
@@ -210,7 +210,7 @@ public final class CommandHandler implements CommandExecutor {
                         plug.reloadConfig();
                         plug.reloadData();
                         LogUtil.success(
-                                "Successfully reloaded the plugin configuration and age data", p);
+                                "成功重载配置文件与年龄数据。", p);
                         break;
                     }
                 }
