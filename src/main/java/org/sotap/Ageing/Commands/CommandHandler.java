@@ -1,4 +1,4 @@
-package org.sotap.Ageing;
+package org.sotap.Ageing.Commands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -6,6 +6,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.sotap.Ageing.Ageing;
+import org.sotap.Ageing.G;
 
 public final class CommandHandler implements CommandExecutor {
     public Ageing plug;
