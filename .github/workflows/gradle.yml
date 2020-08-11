@@ -24,3 +24,9 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew build
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: Ageing-latest
+        path: build/libs/*.jar
+        if-no-files-found: warn
