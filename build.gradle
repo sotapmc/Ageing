@@ -18,7 +18,7 @@ repositories {
 
 dependencies {
     compileOnly "org.spigotmc:spigot-api:$minecraftVersion-R0.1-SNAPSHOT"
-    compileOnly "me.clip:PlaceholderAPI:$papiVersion"
+    compileOnly "me.clip:placeholderapi:$papiVersion"
     testImplementation 'junit:junit:4.13'
     // https://mvnrepository.com/artifact/javax.validation/validation-api
     implementation group: 'javax.validation', name: 'validation-api', version: '1.0.0.GA'
