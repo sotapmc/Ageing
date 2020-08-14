@@ -201,8 +201,14 @@ public final class CommandHandler implements CommandExecutor {
                             return true;
                         }
                         Integer exp = plug.ageData.getInt(playerUUID + ".exp");
-                        LogUtil.info("&a" + playername + "&r 的经验值为 &a"
+                        LogUtil.info("&a" + playername + "&r 的总经验值为 &a"
                                 + exp.toString() + "&r。", p);
+                        break;
+                    }
+
+                    case "me": {
+                        LogUtil.info("您的 Ageing 年龄： &a" + plug.ageData.getInt(p.getUniqueId() + ".age"), p);
+                        LogUtil.info("您的 Ageing 总经验值： &a" + plug.ageData.getInt(p.getUniqueId() + ".exp"), p);
                         break;
                     }
 

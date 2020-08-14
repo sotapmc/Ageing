@@ -27,6 +27,7 @@ permissions:
       ageing.subexp: true
       ageing.getexp: true
       ageing.reload: true
+      ageing.me: true
   ageing.set:
     default: op
   ageing.get:
@@ -45,3 +46,5 @@ permissions:
     default: op
   ageing.reload:
     default: op
+  ageing.me:
+    default: true

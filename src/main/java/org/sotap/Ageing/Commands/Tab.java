@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
 
 public final class Tab implements TabCompleter {
-    private static final String[] BASE = {"set", "get", "add", "sub", "setexp", "addexp", "subexp", "getexp", "reload"};
+    private static final String[] BASE = {"set", "get", "add", "sub", "setexp", "addexp", "subexp", "getexp", "reload", "me"};
 
     public Tab() {}
 
