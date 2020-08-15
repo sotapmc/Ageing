@@ -24,10 +24,12 @@ public final class Events implements Listener {
         String uuid = p.getUniqueId().toString();
         String playername = p.getName();
         FileConfiguration config = plug.getConfig();
+        plug.reloadData();
+        plug.reloadConfig();
         if (!p.hasPlayedBefore()) {
             LogUtil.info("检测到新玩家 &a" + playername + "&r，处理中...");
             List<String> firstJoinAward = config.getStringList("firstjoin_commands");
-            if (firstJoinAward != null) {
+            if (!firstJoinAward.isEmpty()) {
                 Functions.dispatchCommands(firstJoinAward, playername, uuid);
             }
         }
@@ -39,7 +41,7 @@ public final class Events implements Listener {
             plug.saveData();
             LogUtil.success("初始化完成。");
             List<String> zeroAgeAward = plug.controller.getAgeAwardsAt(config, 0);
-            if (zeroAgeAward != null) {
+            if (!zeroAgeAward.isEmpty()) {
                 Functions.dispatchCommands(zeroAgeAward, playername, uuid);
             }
         } else {
