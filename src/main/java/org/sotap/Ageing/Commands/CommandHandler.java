@@ -21,6 +21,12 @@ public final class CommandHandler implements CommandExecutor {
         LogUtil.warn("你没有执行该指令的权限。", p);
     }
 
+    public static void playerOnlyWarning(Player p) {
+        if (p == null) {
+            LogUtil.failed("该指令只能被玩家执行。");
+        }
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (cmd.getName().equalsIgnoreCase("ageing")) {
@@ -28,11 +34,13 @@ public final class CommandHandler implements CommandExecutor {
                 String arg = args[0];
                 String playername = null;
                 String playerUUID = null;
-                Player p = (Player) sender;
+                Player p = sender instanceof Player ? (Player) sender : null;
 
-                if (!p.hasPermission("ageing." + arg)) {
-                    noPermission(p);
-                    return true;
+                if (p != null) {
+                    if (!p.hasPermission("ageing." + arg)) {
+                        noPermission(p);
+                        return true;
+                    }
                 }
 
                 if (args.length > 1) {
@@ -207,6 +215,7 @@ public final class CommandHandler implements CommandExecutor {
                     }
 
                     case "me": {
+                        playerOnlyWarning(p);
                         LogUtil.info("您的 Ageing 年龄： &a" + plug.ageData.getInt(p.getUniqueId() + ".age"), p);
                         LogUtil.info("您的 Ageing 总经验值： &a" + plug.ageData.getInt(p.getUniqueId() + ".exp"), p);
                         break;
