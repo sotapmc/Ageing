@@ -18,32 +18,40 @@ public final class LogUtil {
 
     public static void success(String message, Player... p) {
         if (p.length > 0) {
-            p[0].sendMessage(translateColor(SUCCESS + message));
-            return;
+            if (p[0] != null) {
+                p[0].sendMessage(translateColor(SUCCESS + message));
+                return;
+            }
         }
         origin.info(translateColor(SUCCESS + message));
     }
 
     public static void warn(String message, Player... p) {
         if (p.length > 0) {
-            p[0].sendMessage(translateColor(WARN + message));
-            return;
+            if (p[0] != null) {
+                p[0].sendMessage(translateColor(WARN + message));
+                return;
+            }
         }
         origin.info(translateColor(WARN + message));
     }
 
     public static void failed(String message, Player... p) {
         if (p.length > 0) {
-            p[0].sendMessage(translateColor(FAILED + message));
-            return;
+            if (p[0] != null) {
+                p[0].sendMessage(translateColor(FAILED + message));
+                return;
+            }
         }
         origin.info(translateColor(FAILED + message));
     }
 
     public static void info(String message, Player... p) {
         if (p.length > 0) {
-            p[0].sendMessage(translateColor(INFO + message));
-            return;
+            if (p[0] != null) {
+                p[0].sendMessage(translateColor(INFO + message));
+                return;
+            }
         }
         origin.info(translateColor(INFO + message));
     }
