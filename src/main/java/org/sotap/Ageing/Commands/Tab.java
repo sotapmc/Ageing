@@ -19,7 +19,6 @@ public final class Tab implements TabCompleter {
         List<String> available = new ArrayList<>();
         if (p == null) {
             available = Arrays.asList(BASE);
-            available.remove("me");
             return available;
         }
         for (String cmd : BASE) {
