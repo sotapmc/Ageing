@@ -1,6 +1,7 @@
 package org.sotap.Ageing.Commands;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.bukkit.command.Command;
@@ -16,6 +17,11 @@ public final class Tab implements TabCompleter {
 
     public List<String> getAvailableCommands(Player p) {
         List<String> available = new ArrayList<>();
+        if (p == null) {
+            available = Arrays.asList(BASE);
+            available.remove("me");
+            return available;
+        }
         for (String cmd : BASE) {
             if (p.hasPermission("ageing." + cmd)) {
                 available.add(cmd);
@@ -29,7 +35,7 @@ public final class Tab implements TabCompleter {
         List<String> result = new ArrayList<>();
         if (command.getName().equalsIgnoreCase("ageing")) {
             if (arguments.length == 1) {
-                result = StringUtil.copyPartialMatches(arguments[0], getAvailableCommands((Player) sender), result);
+                result = StringUtil.copyPartialMatches(arguments[0], getAvailableCommands(sender instanceof Player ? (Player) sender : null), result);
                 Collections.sort(result);
             } else {
                 result = null;
