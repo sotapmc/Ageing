@@ -23,17 +23,24 @@ public final class Events implements Listener {
         Player p = e.getPlayer();
         String uuid = p.getUniqueId().toString();
         String playername = p.getName();
-        if (!p.hasPlayedBefore() || !plug.ageData.contains(uuid)) {
-            LogUtil.info("检测到新玩家 &a" + playername + "&r，正在初始化数据...");
+        FileConfiguration config = plug.getConfig();
+        if (!p.hasPlayedBefore()) {
+            LogUtil.info("检测到新玩家 &a" + playername + "&r，处理中...");
+            List<String> firstJoinAward = config.getStringList("firstjoin_commands");
+            if (firstJoinAward != null) {
+                Functions.dispatchCommands(firstJoinAward, playername, uuid);
+            }
+        }
+        if (!plug.ageData.contains(uuid)) {
+            LogUtil.info("检测到玩家 &a" + playername + "&r 数据为空，正在初始化数据...");
             plug.ageData.set(uuid + ".playername", playername);
             plug.ageData.set(uuid + ".age", 0);
             plug.ageData.set(uuid + ".exp", 0);
             plug.saveData();
             LogUtil.success("初始化完成。");
-            FileConfiguration config = plug.getConfig();
-            List<String> firstJoinAward = plug.controller.getAgeAwardsAt(config, 0);
-            if (firstJoinAward != null) {
-                Functions.dispatchCommands(firstJoinAward, playername, uuid);
+            List<String> zeroAgeAward = plug.controller.getAgeAwardsAt(config, 0);
+            if (zeroAgeAward != null) {
+                Functions.dispatchCommands(zeroAgeAward, playername, uuid);
             }
         } else {
             if (plug.ageData.getString(uuid + ".playername") != playername) {
