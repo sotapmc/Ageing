@@ -1,6 +1,4 @@
 # 推荐阅读 https://book.sotap.org/#/ageing/config 来阅读每一项的具体含义
-firstjoin_commands:
-  - say Hello! %playername%
 # 达到一定年龄后所要执行的命令
 # 对于 0，代表玩家安装插件后第一次入服时执行的命令
 age_commands:

@@ -29,13 +29,6 @@ public final class Events implements Listener {
         FileConfiguration config = plug.getConfig();
         plug.reloadData();
         plug.reloadConfig();
-        if (!p.hasPlayedBefore()) {
-            LogUtil.info("检测到新玩家 &a" + playername + "&r，处理中...");
-            List<String> firstJoinAward = config.getStringList("firstjoin_commands");
-            if (!firstJoinAward.isEmpty()) {
-                Functions.dispatchCommands(firstJoinAward, playername, uuid);
-            }
-        }
         if (!plug.ageData.contains(uuid)) {
             LogUtil.info("检测到玩家 &a" + playername + "&r 数据为空，正在初始化数据...");
             plug.ageData.set(uuid + ".playername", playername);
