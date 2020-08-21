@@ -4,6 +4,7 @@ import javax.validation.constraints.NotNull;
 import org.sotap.Ageing.Exception.AgeingAPIException;
 import org.sotap.Ageing.Utils.Functions;
 
+@SuppressWarnings("unused")
 public final class API {
     public Ageing plug;
 
@@ -21,7 +22,7 @@ public final class API {
     public boolean updateExperience(@NotNull Integer exp, @NotNull String playername) throws AgeingAPIException {
         // 无需验证玩家是否在线：当该方法被执行时，玩家必定在线且存在
         Integer oldExp = Functions.getDataOf(plug, playername).getInt("exp");
-        if (exp > 0 || exp < 0) {
+        if (exp != 0) {
             plug.controller.updateExperience(playername, oldExp + exp);
             return true;
         } else {
@@ -35,7 +36,7 @@ public final class API {
      * @return int
      */
     public Integer getAgeOf(@NotNull String playername) {
-        Integer age = -1;
+        int age = -1;
         try {
             age = Functions.getDataOf(plug, playername).getInt("age");
         } catch (Exception e) {
@@ -50,7 +51,7 @@ public final class API {
      * @return int
      */
     public Integer getExpOf(@NotNull String playername) {
-        Integer exp = -1;
+        int exp = -1;
         try {
             exp = Functions.getDataOf(plug, playername).getInt("exp");
         } catch (Exception e) {

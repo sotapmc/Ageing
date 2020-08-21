@@ -34,7 +34,7 @@ public final class Tab implements TabCompleter {
         List<String> result = new ArrayList<>();
         if (command.getName().equalsIgnoreCase("ageing")) {
             if (arguments.length == 1) {
-                result = StringUtil.copyPartialMatches(arguments[0], getAvailableCommands(sender instanceof Player ? (Player) sender : null), result);
+                StringUtil.copyPartialMatches(arguments[0], getAvailableCommands(sender instanceof Player ? (Player) sender : null), result);
                 Collections.sort(result);
             } else {
                 result = null;

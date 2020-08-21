@@ -2,6 +2,7 @@ package org.sotap.Ageing.Utils;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.bukkit.Bukkit;
@@ -79,5 +80,9 @@ public final class Functions {
             Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(),
                 command.replace("%playername%", playername).replace("%uuid%", uuid));
         }
+    }
+
+    public static boolean eq(Object a, Object b) {
+        return Objects.equals(a, b);
     }
 }

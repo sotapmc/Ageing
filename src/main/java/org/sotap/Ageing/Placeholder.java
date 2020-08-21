@@ -51,6 +51,7 @@ public class Placeholder extends PlaceholderExpansion {
         if (identifier.equals("experience_to_next")) {
             Integer nextExperience = plug.controller.getGrowthCostTo(plug.getConfig(),
                     plug.ageData.getInt(player.getUniqueId().toString() + ".age") + 1);
+            @SuppressWarnings("WrapperTypeMayBePrimitive")
             Integer delta =
                     nextExperience - plug.ageData.getInt(player.getUniqueId().toString() + ".exp");
             return delta.toString();

@@ -10,6 +10,8 @@ import org.sotap.Ageing.Ageing;
 import org.sotap.Ageing.Utils.Functions;
 import org.sotap.Ageing.Utils.LogUtil;
 
+import java.util.Objects;
+
 public final class CommandHandler implements CommandExecutor {
     public Ageing plug;
 
@@ -21,10 +23,8 @@ public final class CommandHandler implements CommandExecutor {
         LogUtil.warn("你没有执行该指令的权限。", p);
     }
 
-    public static void playerOnlyWarning(Player p) {
-        if (p == null) {
-            LogUtil.failed("该指令只能被玩家执行。");
-        }
+    public static void playerOnlyWarning() {
+        LogUtil.failed("该指令只能被玩家执行。");
     }
 
     @Override
@@ -46,7 +46,7 @@ public final class CommandHandler implements CommandExecutor {
                 if (args.length > 1) {
                     playername = args[1];
                     try {
-                        playerUUID = Bukkit.getPlayer(playername).getUniqueId().toString();
+                        playerUUID = Objects.requireNonNull(Bukkit.getPlayer(playername)).getUniqueId().toString();
                     } catch (NullPointerException npe) {
                         LogUtil.failed("指定的玩家&c不在线&r或者&c不存在&r。", p);
                         return true;
@@ -73,7 +73,7 @@ public final class CommandHandler implements CommandExecutor {
                             LogUtil.failed("无效参数。", p);
                             return true;
                         }
-                        Integer newAge = Integer.parseInt(args[2]);
+                        int newAge = Integer.parseInt(args[2]);
                         if (newAge > config.getInt("max_age")) {
                             LogUtil.failed("目标年龄必须&c小于&r最高年龄 (&e"
                                     + config.getInt("max_age") + "&r)。", p);
@@ -91,9 +91,9 @@ public final class CommandHandler implements CommandExecutor {
                             LogUtil.failed("无效参数。", p);
                             return true;
                         }
-                        Integer age = plug.ageData.getInt(playerUUID + ".age");
+                        int age = plug.ageData.getInt(playerUUID + ".age");
                         LogUtil.info("&a" + playername + "&r 的年龄为 &a"
-                                + Integer.toString(age) + "&r。", p);
+                                + age + "&r。", p);
                         break;
                     }
 
@@ -102,10 +102,10 @@ public final class CommandHandler implements CommandExecutor {
                             LogUtil.failed("无效参数。", p);
                             return true;
                         }
-                        Integer maxAge = config.getInt("max_age");
-                        Integer oldAge = plug.ageData.getInt(playerUUID + ".age");
-                        Integer addend = args.length == 2 ? 1 : Integer.parseInt(args[2]);
-                        Integer result = oldAge + addend;
+                        int maxAge = config.getInt("max_age");
+                        int oldAge = plug.ageData.getInt(playerUUID + ".age");
+                        int addend = args.length == 2 ? 1 : Integer.parseInt(args[2]);
+                        int result = oldAge + addend;
                         if (maxAge == oldAge) {
                             LogUtil.failed("该玩家的年龄已经是&c最大值&r。", p);
                             return true;
@@ -129,9 +129,9 @@ public final class CommandHandler implements CommandExecutor {
                             LogUtil.failed("无效参数。");
                             return true;
                         }
-                        Integer oldAge = plug.ageData.getInt(playerUUID + ".age");
-                        Integer subtrahend = args.length == 2 ? 1 : Integer.parseInt(args[2]);
-                        Integer result = oldAge - subtrahend;
+                        int oldAge = plug.ageData.getInt(playerUUID + ".age");
+                        int subtrahend = args.length == 2 ? 1 : Integer.parseInt(args[2]);
+                        int result = oldAge - subtrahend;
                         if (oldAge == 0) {
                             LogUtil.failed("该玩家的年龄为 &e0&r，不可再减。",
                                     p);
@@ -172,7 +172,7 @@ public final class CommandHandler implements CommandExecutor {
                             LogUtil.failed("无效参数。", p);
                             return true;
                         }
-                        Integer oldExp = plug.ageData.getInt(playerUUID + ".exp");
+                        int oldExp = plug.ageData.getInt(playerUUID + ".exp");
                         Integer newExp = oldExp + Integer.parseInt(args[2]);
                         if (!plug.controller.updateExperience(playername, newExp)) {
                             LogUtil.failed(
@@ -190,7 +190,7 @@ public final class CommandHandler implements CommandExecutor {
                             LogUtil.failed("无效参数。", p);
                             return true;
                         }
-                        Integer oldExp = plug.ageData.getInt(playerUUID + ".exp");
+                        int oldExp = plug.ageData.getInt(playerUUID + ".exp");
                         Integer newExp = oldExp - Integer.parseInt(args[2]);
                         if (!plug.controller.updateExperience(playername, newExp)) {
                             LogUtil.failed(
@@ -208,14 +208,17 @@ public final class CommandHandler implements CommandExecutor {
                             LogUtil.failed("无效参数。", p);
                             return true;
                         }
-                        Integer exp = plug.ageData.getInt(playerUUID + ".exp");
+                        int exp = plug.ageData.getInt(playerUUID + ".exp");
                         LogUtil.info("&a" + playername + "&r 的总经验值为 &a"
-                                + exp.toString() + "&r。", p);
+                                + exp + "&r。", p);
                         break;
                     }
 
                     case "me": {
-                        playerOnlyWarning(p);
+                        if (p == null) {
+                            playerOnlyWarning();
+                            break;
+                        }
                         LogUtil.info("您的 Ageing 年龄： &a" + plug.ageData.getInt(p.getUniqueId() + ".age"), p);
                         LogUtil.info("您的 Ageing 总经验值： &a" + plug.ageData.getInt(p.getUniqueId() + ".exp"), p);
                         break;

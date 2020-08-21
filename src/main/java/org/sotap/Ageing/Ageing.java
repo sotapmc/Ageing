@@ -2,6 +2,7 @@ package org.sotap.Ageing;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -20,12 +21,16 @@ public final class Ageing extends JavaPlugin {
     @Override
     public void onEnable() {
         saveDefaultConfig();
-        ageData = load("age.yml");
         LogUtil.origin = this.getLogger();
         controller = new DataController(this);
+        try {
+            ageData = load("age.yml");
+        } catch (IOException e) {
+            LogUtil.failed("无法创建数据文件，插件将无法正常使用。请修复该问题后尝试重启解决。");
+        }
         LogUtil.success("插件已&a启用&r。");
-        Bukkit.getPluginCommand("ageing").setExecutor(new CommandHandler(this));
-        Bukkit.getPluginCommand("ageing").setTabCompleter(new Tab());
+        Objects.requireNonNull(Bukkit.getPluginCommand("ageing")).setExecutor(new CommandHandler(this));
+        Objects.requireNonNull(Bukkit.getPluginCommand("ageing")).setTabCompleter(new Tab());
         getServer().getPluginManager().registerEvents(new Events(this), this);
         api = new API(this);
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
@@ -41,15 +46,21 @@ public final class Ageing extends JavaPlugin {
         LogUtil.success("插件已&c禁用&r。");
     }
 
-    public FileConfiguration load(String filename) {
+    public FileConfiguration load(String filename) throws IOException {
         File folder = getDataFolder();
         File file = new File(folder, filename);
         if (!folder.exists()) {
-            folder.mkdir();
+            boolean state = folder.mkdir();
+            if (!state) {
+                throw new IOException("cannot create folder automatically");
+            }
         }
         if (!file.exists()) {
             try {
-                file.createNewFile();
+                boolean state = file.createNewFile();
+                if (!state) {
+                    throw new IOException("cannot create file automatically");
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -57,8 +68,13 @@ public final class Ageing extends JavaPlugin {
         return YamlConfiguration.loadConfiguration(file);
     }
 
-    public void reloadData() {
-        ageData = load("age.yml");
+    public boolean reloadData() {
+        try {
+            ageData = load("age.yml");
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
     }
 
     public void saveData() {
@@ -67,9 +83,5 @@ public final class Ageing extends JavaPlugin {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public void log(String message) {
-        getLogger().info(message);
     }
 }

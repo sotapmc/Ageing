@@ -1,9 +1,13 @@
 package org.sotap.Ageing.Utils;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 import org.sotap.Ageing.Ageing;
 
 public class DataController {
@@ -32,8 +36,8 @@ public class DataController {
     // 获取长至指定年龄所需要的总经验数
     public Integer getGrowthCostTo(FileConfiguration config, Integer age) {
         Integer rangeLength = config.getInt("growth_range_length");
-        Integer rangeAt = getAgeRangeAt(config, age);
-        Integer result = 0;
+        int rangeAt = getAgeRangeAt(config, age);
+        int result = 0;
         if (rangeAt == 0) {
             result = age * config.getInt("growth_base_value");
         } else {
@@ -41,11 +45,11 @@ public class DataController {
                 result += rangeLength * getGrowthCostAtRange(config, i);
             }
             result += (age - (rangeLength * rangeAt - 1)) * getGrowthCostAtRange(config, rangeAt);
-            /**
-             * 从第 0 区间向第 1 区间跳跃时，中间会多出一个 b，因此在这里减去来平衡 例如，若 r=5, b=200, s=150，当 n=4 时 exp=800 当 n=5
-             * 时，可知 i=1，则 exp=b*r+i(b+s)=200*5+200+150=1350 那么 n=5 和 n=4 的 exp 值就相差了 550 多出了
-             * 200，也就是多出了一个 b 的值 这当然能在上面的 for 循环中改掉，仅需对 rangeLength 做手脚， 但很明显会用到 if
-             * 且逻辑并不简单，因而会降低效率，因此不如直接在这里减去 b 为了避免后续理解上的问题，故写下这些解释
+            /*
+              从第 0 区间向第 1 区间跳跃时，中间会多出一个 b，因此在这里减去来平衡 例如，若 r=5, b=200, s=150，当 n=4 时 exp=800 当 n=5
+              时，可知 i=1，则 exp=b*r+i(b+s)=200*5+200+150=1350 那么 n=5 和 n=4 的 exp 值就相差了 550 多出了
+              200，也就是多出了一个 b 的值 这当然能在上面的 for 循环中改掉，仅需对 rangeLength 做手脚， 但很明显会用到 if
+              且逻辑并不简单，因而会降低效率，因此不如直接在这里减去 b 为了避免后续理解上的问题，故写下这些解释
              */
             result -= config.getInt("growth_base_value");
         }
@@ -53,12 +57,12 @@ public class DataController {
     }
 
     private Boolean checkAll(String playername, Integer newValue, FileConfiguration config) {
-        Integer baseValue = config.getInt("growth_base_value");
-        Integer stepValue = config.getInt("growth_step_value");
-        Integer rangeLength = config.getInt("growth_range_length");
+        int baseValue = config.getInt("growth_base_value");
+        int stepValue = config.getInt("growth_step_value");
+        int rangeLength = config.getInt("growth_range_length");
         try {
             @SuppressWarnings("unused")
-            String uuid = Bukkit.getPlayer(playername).getUniqueId().toString();
+            String uuid = Objects.requireNonNull(Bukkit.getPlayer(playername)).getUniqueId().toString();
         } catch (Exception e) {
             return false;
         }
@@ -69,13 +73,11 @@ public class DataController {
     // 该函数只能在自然成长过程中生效，因为它只会判断当前年龄是否有存在的奖励设定
     public List<String> getAgeAwardsAt(FileConfiguration config, Integer age) {
         ConfigurationSection awards = config.getConfigurationSection("age_commands");
-        if (awards.contains(age.toString())) {
-            return awards.getStringList(age.toString());
-        }
-        return null;
+        if (awards == null) return new ArrayList<>();
+        return awards.getStringList(age.toString());
     }
 
-    public Boolean updateAge(String playername, Integer newAge) {
+    public boolean updateAge(String playername, Integer newAge) {
         FileConfiguration config = plug.getConfig();
         if (checkAll(playername, newAge, config)) {
             Integer maxAge = config.getInt("max_age");
@@ -85,7 +87,9 @@ public class DataController {
         } else {
             return false;
         }
-        String uuid = Bukkit.getPlayer(playername).getUniqueId().toString();
+        Player p = Bukkit.getPlayer(playername);
+        if (p == null) return false;
+        String uuid = p.getUniqueId().toString();
         plug.ageData.set(uuid + ".age", newAge);
         plug.ageData.set(uuid + ".exp", getGrowthCostTo(config, newAge));
         plug.saveData();
@@ -102,13 +106,15 @@ public class DataController {
         } else {
             return false;
         }
-        String uuid = Bukkit.getPlayer(playername).getUniqueId().toString();
-        Integer oldAge = plug.ageData.getInt(uuid + ".age");
-        Integer newAge = oldAge;
+        Player p = Bukkit.getPlayer(playername);
+        if (p == null) return false;
+        String uuid = p.getUniqueId().toString();
+        int oldAge = plug.ageData.getInt(uuid + ".age");
+        int newAge = oldAge;
         Integer oldExperience = plug.ageData.getInt(uuid + ".exp");
-        Integer addExperience = Math.abs(newExperience - oldExperience);
-        Integer ageGrowthExp = getGrowthCostTo(config, oldAge + 1) - oldExperience;
-        Integer ageDecayExp = oldExperience - getGrowthCostTo(config, oldAge);
+        int addExperience = Math.abs(newExperience - oldExperience);
+        int ageGrowthExp = getGrowthCostTo(config, oldAge + 1) - oldExperience;
+        int ageDecayExp = oldExperience - getGrowthCostTo(config, oldAge);
 
         if (newExperience > 0) {
             if (newExperience > oldExperience) {

@@ -6,6 +6,8 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.sotap.Ageing.Utils.Functions;
 import org.sotap.Ageing.Utils.LogUtil;
 import java.util.List;
+import java.util.Objects;
+
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -45,7 +47,7 @@ public final class Events implements Listener {
                 Functions.dispatchCommands(zeroAgeAward, playername, uuid);
             }
         } else {
-            if (plug.ageData.getString(uuid + ".playername") != playername) {
+            if (!Functions.eq(plug.ageData.getString(uuid + ".playername"), playername)) {
                 plug.ageData.set(uuid + ".playername", playername);
             }
         }
@@ -58,17 +60,17 @@ public final class Events implements Listener {
         String uuid = p.getUniqueId().toString();
         String commandLabel = e.getMessage().substring(1);
 
-        Integer currentAge = plug.ageData.getInt(uuid + ".age");
-        Integer lowestLimit = config.getInt("command_lowest_limit");
-        Integer finalAgeLimit = 0;
+        int currentAge = plug.ageData.getInt(uuid + ".age");
+        int lowestLimit = config.getInt("command_lowest_limit");
+        int finalAgeLimit = 0;
 
         ConfigurationSection limitedCommands = config.getConfigurationSection("limited_commands");
+        if (limitedCommands == null) return;
         List<String> ignoredCommands = config.getStringList("ignored_commands");
 
         if (!ignoredCommands.contains(commandLabel)) {
             if (limitedCommands.contains(commandLabel)) {
-                finalAgeLimit = limitedCommands.getInt(commandLabel) < lowestLimit ? lowestLimit
-                        : limitedCommands.getInt(commandLabel);
+                finalAgeLimit = Math.max(limitedCommands.getInt(commandLabel), lowestLimit);
             } else {
                 finalAgeLimit = lowestLimit;
             }
