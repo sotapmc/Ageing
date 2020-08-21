@@ -13,6 +13,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 
+@SuppressWarnings("unused")
 public final class Events implements Listener {
     public Ageing plug;
 
