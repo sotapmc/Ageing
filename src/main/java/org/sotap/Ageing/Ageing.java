@@ -68,13 +68,10 @@ public final class Ageing extends JavaPlugin {
         return YamlConfiguration.loadConfiguration(file);
     }
 
-    public boolean reloadData() {
+    public void reloadData() {
         try {
             ageData = load("age.yml");
-            return true;
-        } catch (IOException e) {
-            return false;
-        }
+        } catch (IOException ignored) {}
     }
 
     public void saveData() {

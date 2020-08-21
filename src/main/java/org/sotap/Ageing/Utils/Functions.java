@@ -7,6 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Player;
 import org.sotap.Ageing.Ageing;
 
 public final class Functions {
@@ -71,8 +72,9 @@ public final class Functions {
      * @return ConfigurationSection
      */
     public static ConfigurationSection getDataOf(Ageing plugin, String playername) {
+        Player p = Objects.requireNonNull(Bukkit.getPlayer(playername));
         return plugin.ageData
-                .getConfigurationSection(Bukkit.getPlayer(playername).getUniqueId().toString());
+                .getConfigurationSection(p.getUniqueId().toString());
     }
 
     public static void dispatchCommands(List<String> commands, String playername, String uuid) {
